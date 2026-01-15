@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stories & Insights | Ni-Wakati Sports Africa</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        html, body {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+       
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            padding-top: 30px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .logo {
+            position: absolute;
+            left: 10px;
+            top: 30px;
+            height: 90px;
+            width: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 4px 16px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            z-index: 1002;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 4px 16px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.15),
+                0 6px 20px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .logo img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        nav {
+            position: relative;
+            width: fit-content;
+            margin: 0 auto;
+            margin-top: 0;
+            padding: 0 30px;
+            background: rgba(255, 255, 255, 0.5);
+            overflow: visible;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 4px 16px rgba(0, 0, 0, 0.05);
+            z-index: 1001;
+        }
+
+        nav:before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: url(#wave-distort);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        nav > ul {   
+            position: relative;
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            height: 55px;
+            isolation: isolate;
+            padding: 0 15px;
+            z-index: 2;
+        }
+        
+        nav > ul::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 6px;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            transform: translateX(var(--translate-x, 0)) translateY(var(--translate-y, 0)) rotate(var(--rotate-x, 0deg));
+            transition: none;
+            opacity: 0;
+            z-index: -1;
+            box-shadow: 
+                0 4px 16px rgba(255, 255, 255, 0.4),
+                0 2px 8px rgba(255, 255, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        
+        nav > ul li {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Active state for dropdown main links */
+        a.active {
+            color: #2c7a2c !important;
+            font-weight: 700;
+            position: relative;
+        }
+
+        a.active:after {
+            border-color: #2c7a2c transparent transparent transparent;
+        }
+
+        a.active:hover {
+            color: #1e5e1e !important;
+        }
+
+        ul li a.active {
+            color: #2c7a2c !important;
+            background-color: rgba(44, 122, 44, 0.1);
+            font-weight: 600;
+        }
+
+        nav > ul li a {
+            position: relative;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding-inline: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 8px;
+        }
+        
+        nav > ul li a:hover {
+            color: #000000;
+            transform: translateY(-2px);
+        }
+        
+        nav > ul li a:focus {
+            outline: none;
+        }
+        
+        nav > ul li a.active {
+            color: #000000;
+            transform: translateY(-2px);
+        }
+        
+        nav > ul.show-indicator::after {
+            opacity: 1;
+        }
+        
+        nav > ul li a:active {
+            transform: translateY(-2px);
+        }
+        
+        /* Dropdown Styles */
+        .dropDown-menu {
+            position: relative;
+        }
+
+        .dropDown-menu > a {
+            position: relative;
+            padding-right: 35px !important;
+        }
+
+        .dropDown-menu > a:after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 5px 5px 0 5px;
+            border-color: #666 transparent transparent transparent;
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
+        }
+
+        .dropDown-menu:hover > a:after {
+            border-color: transparent transparent #2c7a2c transparent;
+            border-width: 0 5px 5px 5px;
+        }
+
+        .dropDown-menu > ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            min-width: 220px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 4px 16px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1003;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropDown-menu:hover > ul {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(5px);
+        }
+
+        .dropDown-menu > ul > li {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .dropDown-menu > ul > li > a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .dropDown-menu > ul > li:last-child > a {
+            border-bottom: none;
+        }
+
+        .dropDown-menu > ul > li > a:hover {
+            background-color: rgba(44, 122, 44, 0.1);
+            color: #2c7a2c;
+            padding-left: 25px;
+        }
+
+        /* Stories Hero Section */
+        .stories-hero {
+            position: relative;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding-top: 120px;
+            margin-bottom: 60px;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)),
+                url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 0 20px;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #2c7a2c, #3b9c3b, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientShift 8s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        /* Main Content */
+        .stories-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+            color: #fff;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #2c7a2c, #10b981);
+            border-radius: 2px;
+        }
+
+        /* Featured Story */
+        .featured-story {
+            background: linear-gradient(45deg, rgba(44, 122, 44, 0.1), rgba(16, 185, 129, 0.1));
+            border-radius: 30px;
+            overflow: hidden;
+            margin-bottom: 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border: 1px solid rgba(44, 122, 44, 0.2);
+        }
+
+        .featured-content {
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-category {
+            display: inline-block;
+            background: #2c7a2c;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            width: fit-content;
+        }
+
+        .featured-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .featured-excerpt {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .featured-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .featured-meta span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .featured-meta i {
+            color: #2c7a2c;
+        }
+
+        .featured-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Stories Grid */
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .story-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .story-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(44, 122, 44, 0.5);
+            box-shadow: 0 20px 40px rgba(44, 122, 44, 0.1);
+        }
+
+        .story-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+            z-index: 2;
+        }
+
+        .badge-impact {
+            background: #2c7a2c;
+        }
+
+        .badge-sustainability {
+            background: #f59e0b;
+        }
+
+        .badge-innovation {
+            background: #3b82f6;
+        }
+
+        .badge-community {
+            background: #7c3aed;
+        }
+
+        .story-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .story-content {
+            padding: 30px;
+        }
+
+        .story-category {
+            display: inline-block;
+            color: #2c7a2c;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .story-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .story-excerpt {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .story-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .story-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .author-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Impact Metrics Section */
+        .impact-metrics {
+            background: linear-gradient(45deg, rgba(44, 122, 44, 0.1), rgba(16, 185, 129, 0.1));
+            border-radius: 30px;
+            padding: 60px;
+            margin: 80px 0;
+            text-align: center;
+        }
+
+        .impact-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #fff;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+
+        .metric-item {
+            position: relative;
+            padding: 30px;
+        }
+
+        .metric-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #2c7a2c, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .metric-label {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        /* Video Insights Section */
+        .video-insights {
+            margin: 80px 0;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(44, 122, 44, 0.5);
+            box-shadow: 0 15px 30px rgba(44, 122, 44, 0.1);
+        }
+
+        .video-thumbnail {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .video-card:hover .video-thumbnail img {
+            transform: scale(1.05);
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(44, 122, 44, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: #2c7a2c;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-content {
+            padding: 25px;
+        }
+
+        .video-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .video-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+        }
+
+        /* Newsletter Section */
+        .insights-newsletter {
+            background: linear-gradient(45deg, rgba(44, 122, 44, 0.1), rgba(16, 185, 129, 0.1));
+            border-radius: 30px;
+            padding: 60px;
+            margin: 80px 0;
+            text-align: center;
+        }
+
+        .newsletter-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .newsletter-text {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            transition: border-color 0.3s ease;
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: #2c7a2c;
+        }
+
+        .newsletter-form input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .subscribe-btn {
+            background: linear-gradient(45deg, #2c7a2c, #10b981);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .subscribe-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(44, 122, 44, 0.3);
+        }
+
+        /* FOOTER STYLES */
+        .pact-footer {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+            padding: 40px 0 20px;
+            border-top: 1px solid #ffffff;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Newsletter Section */
+        .footer-newsletter-section {
+            margin-bottom: 40px;
+        }
+
+        .footer-newsletter-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-newsletter-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #999;
+            margin-bottom: 25px;
+            max-width: 700px;
+        }
+
+        .footer-newsletter-form {
+            display: flex;
+            gap: 15px;
+            max-width: 500px;
+        }
+
+        .footer-newsletter-form input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #444;
+            border-radius: 3px;
+            font-size: 0.95rem;
+            color: #fff;
+            background-color: #222;
+            transition: border-color 0.3s ease;
+        }
+
+        .footer-newsletter-form input:focus {
+            outline: none;
+            border-color: #2c7a2c;
+            box-shadow: 0 0 0 2px rgba(44, 122, 44, 0.1);
+        }
+
+        .footer-newsletter-form input::placeholder {
+            color: #777;
+        }
+
+        .footer-signup-btn {
+            background-color: #2c7a2c;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 3px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-signup-btn:hover {
+            background-color: #1e5e1e;
+        }
+
+        /* Footer Divider */
+        .footer-divider {
+            border: none;
+            height: 1px;
+            background-color: #333;
+            margin: 30px 0;
+        }
+
+        /* Bottom Section */
+        .footer-bottom-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .footer-bottom-section {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-bottom-section {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+        }
+
+        .footer-heading {
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Menu Links */
+        .footer-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-menu li {
+            margin-bottom: 10px;
+        }
+
+        .footer-menu a {
+            color: #999;
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            letter-spacing: 0.3px;
+        }
+
+        .footer-menu a:hover {
+            color: #2c7a2c;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #999;
+        }
+
+        .contact-info p {
+            margin-bottom: 8px;
+        }
+
+        .contact-info strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .social-link {
+            color: #999;
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            letter-spacing: 0.3px;
+        }
+
+        .social-link:hover {
+            color: #2c7a2c;
+        }
+
+        /* Copyright */
+        .copyright-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .copyright-text {
+            font-size: 0.85rem;
+            color: #777;
+            letter-spacing: 0.3px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .featured-story {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-content {
+                padding: 40px;
+            }
+
+            .featured-title {
+                font-size: 2rem;
+            }
+
+            .stories-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 30px;
+            }
+
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+
+            .impact-metrics,
+            .insights-newsletter {
+                padding: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .stories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            /* Responsive nav */
+            .logo {
+                left: 20px;
+                top: 20px;
+                height: 60px;
+                width: 60px;
+            }
+            
+            nav {
+                padding: 0 15px;
+                width: calc(100% - 100px);
+                margin-left: 80px;
+            }
+            
+            nav > ul {
+                height: 50px;
+                padding: 0 5px;
+                justify-content: space-between;
+            }
+            
+            nav > ul li a {
+                padding-inline: 10px;
+                font-size: 0.85rem;
+            }
+            
+            .dropDown-menu > a {
+                padding-right: 25px !important;
+            }
+            
+            .dropDown-menu > ul {
+                min-width: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .impact-title,
+            .newsletter-title {
+                font-size: 1.8rem;
+            }
+            
+            /* Responsive nav */
+            header {
+                padding-top: 15px;
+            }
+            
+            .logo {
+                left: 15px;
+                top: 15px;
+                height: 50px;
+                width: 50px;
+            }
+            
+            nav {
+                padding: 0 10px;
+                width: calc(100% - 80px);
+                margin-left: 70px;
+            }
+            
+            nav > ul {
+                height: 45px;
+            }
+            
+            nav > ul li a {
+                padding-inline: 8px;
+                font-size: 0.8rem;
+            }
+            
+            .dropDown-menu > a {
+                padding-right: 20px !important;
+            }
+            
+            .dropDown-menu > ul {
+                min-width: 160px;
+            }
+            
+            /* Responsive form */
+            .footer-newsletter-form {
+                flex-direction: column;
+            }
+            
+            .footer-newsletter-form input,
+            .footer-signup-btn {
+                width: 100%;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Read More Button */
+        .read-more {
+            display: inline-block;
+            color: #2c7a2c;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding: 8px 0;
+            position: relative;
+        }
+
+        .read-more:after {
+            content: '→';
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .read-more:hover:after {
+            transform: translateX(5px);
+        }
+
+        .read-more:hover {
+            color: #10b981;
+        }
+
+        /* Video Modal */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .video-modal-content {
+            width: 90%;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .video-modal iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .video-modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .video-modal-close:hover {
+            color: #2c7a2c;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation - EXACT SAME AS INDEX.HTML -->
+       <header>
+    <div class="logo">
+        <img src="assets/img/logo.jpg" alt="Logo">
+    </div>
+    <nav>
+        <ul>
+            <li>
+                <a href="index.html" class="active">Home</a>
+            </li>
+            <li class="dropDown-menu">
+                <a href="about.html">About</a>
+                <ul>
+                    <li><a href="about.html#vision">Mission & Vision</a></li>
+                    <li><a href="about.html#programs">Our Programs</a></li>
+                    <li><a href="about.html#principles">Core Principles</a></li>
+                </ul>
+            </li>
+            <li class="dropDown-menu">
+                <a href="events.html">Events</a>
+                <ul>
+                    <li><a href="events.html#sports">Sports & Tourism</a></li>
+                    <li><a href="events.html#emerging">Emerging Sports</a></li>
+                </ul>
+            </li>
+            <li class="dropDown-menu">
+                <a href="insights.html">Stories & Insights</a>
+                <ul>
+                    <li><a href="insights.html#impact">Impact & Sustainability</a></li>
+                </ul>
+            </li>
+            <li class="dropDown-menu">
+                <a href="involved.html">Get Involved</a>
+                <ul>
+                    <li><a href="involved.html#partnerships">Partnerships</a></li>
+                    <li><a href="involved.html#partner">Partner With Us</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+    <!-- Hero Section -->
+    <section class="stories-hero">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Stories & Insights</h1>
+            <p class="hero-subtitle">Real Impact Through Sports. Discover the Transformative Power of Community-Driven Sports Development Across Africa.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="stories-main">
+        <!-- Featured Story -->
+        <section class="featured-story fade-in" id="impact">
+            <div class="featured-content">
+                <span class="featured-category">IMPACT STORY</span>
+                <h2 class="featured-title">From Slum to Stadium: How Football Changed 1,000 Lives in Kibera</h2>
+                <p class="featured-excerpt">Meet Sarah, a 16-year-old from Nairobi's largest informal settlement who went from playing football in muddy alleys to captaining her national youth team. Discover how our grassroots football program provided not just sports training, but life skills, education support, and a pathway to professional careers.</p>
+                
+                <div class="featured-meta">
+                    <span><i class="fas fa-calendar-alt"></i> March 15, 2024</span>
+                    <span><i class="fas fa-user"></i> By Amina Diallo</span>
+                    <span><i class="fas fa-clock"></i> 8 min read</span>
+                </div>
+                
+                <a href="#story1" class="read-more">Read Full Story</a>
+            </div>
+            <img src="https://images.unsplash.com/photo-1575361204480-aadea25e6e68?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Youth Football in Kibera" class="featured-image">
+        </section>
+
+        <!-- Latest Stories -->
+        <section class="fade-in">
+            <h2 class="section-title">Latest Stories</h2>
+            <div class="stories-grid">
+                <!-- Story 1 -->
+                <article class="story-card" id="story1">
+                    <span class="story-badge badge-sustainability">SUSTAINABILITY</span>
+                    <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Eco-friendly Sports Facilities" class="story-image">
+                    <div class="story-content">
+                        <span class="story-category">Sustainability</span>
+                        <h3 class="story-title">Building Africa's First Solar-Powered Community Sports Center</h3>
+                        <p class="story-excerpt">How we transformed a vacant lot in Kampala into a sustainable sports hub powered entirely by renewable energy, creating jobs while reducing carbon footprint.</p>
+                        <div class="story-meta">
+                            <div class="story-author">
+                                <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Author" class="author-avatar">
+                                <span>David Mwangi</span>
+                            </div>
+                            <span>Feb 28, 2024</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Story 2 -->
+                <article class="story-card">
+                    <span class="story-badge badge-innovation">INNOVATION</span>
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Skateboarding in Africa" class="story-image">
+                    <div class="story-content">
+                        <span class="story-category">Emerging Sports</span>
+                        <h3 class="story-title">Skateboarding's Rise in East Africa: More Than Just a Sport</h3>
+                        <p class="story-excerpt">How skateboarding is breaking gender barriers and creating safe spaces for youth in urban areas across Tanzania and Kenya.</p>
+                        <div class="story-meta">
+                            <div class="story-author">
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Author" class="author-avatar">
+                                <span>Fatima Bello</span>
+                            </div>
+                            <span>Feb 15, 2024</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Story 3 -->
+                <article class="story-card">
+                    <span class="story-badge badge-community">COMMUNITY</span>
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Women's Sports" class="story-image">
+                    <div class="story-content">
+                        <span class="story-category">Women in Sports</span>
+                        <h3 class="story-title">Breaking Barriers: How Rugby is Empowering Girls in Rural Uganda</h3>
+                        <p class="story-excerpt">The story of our all-girls rugby program that's challenging stereotypes and providing leadership opportunities in communities where sports were traditionally male-dominated.</p>
+                        <div class="story-meta">
+                            <div class="story-author">
+                                <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Author" class="author-avatar">
+                                <span>Amina Diallo</span>
+                            </div>
+                            <span>Jan 30, 2024</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Story 4 -->
+                <article class="story-card">
+                    <span class="story-badge badge-impact">IMPACT</span>
+                    <img src="https://images.unsplash.com/photo-1519861531473-920034658307?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sports Analytics" class="story-image">
+                    <div class="story-content">
+                        <span class="story-category">Data & Analytics</span>
+                        <h3 class="story-title">Measuring Impact: Our Data-Driven Approach to Sports Development</h3>
+                        <p class="story-excerpt">How we use data analytics to track social impact, improve program effectiveness, and make evidence-based decisions for sustainable sports development.</p>
+                        <div class="story-meta">
+                            <div class="story-author">
+                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Author" class="author-avatar">
+                                <span>Kwame Osei</span>
+                            </div>
+                            <span>Jan 18, 2024</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Story 5 -->
+                <article class="story-card">
+                    <span class="story-badge badge-sustainability">SUSTAINABILITY</span>
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d6b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sports Medicine" class="story-image">
+                    <div class="story-content">
+                        <span class="story-category">Health & Wellness</span>
+                        <h3 class="story-title">Sports as Medicine: Reducing Non-Communicable Diseases Through Community Programs</h3>
+                        <p class="story-excerpt">How regular participation in our sports programs has led to measurable health improvements in communities with high rates of diabetes and hypertension.</p>
+                        <div class="story-meta">
+                            <div class="story-author">
+                                <img src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Author" class="author-avatar">
+                                <span>Dr. Michael Chen</span>
+                            </div>
+                            <span>Jan 10, 2024</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Story 6 -->
+                <article class="story-card">
+                    <span class="story-badge badge-innovation">INNOVATION</span>
+                    <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Digital Sports" class="story-image">
+                    <div class="story-content">
+                        <span class="story-category">Technology</span>
+                        <h3 class="story-title">Bridging the Digital Divide: E-Sports in African Schools</h3>
+                        <p class="story-excerpt">Our innovative e-sports program that's teaching digital literacy, coding, and teamwork while providing safe alternatives to traditional sports for physically disabled youth.</p>
+                        <div class="story-meta">
+                            <div class="story-author">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Author" class="author-avatar">
+                                <span>Alex Morgan</span>
+                            </div>
+                            <span>Dec 22, 2023</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Impact Metrics -->
+        <section class="impact-metrics fade-in">
+            <h2 class="impact-title">Our Impact in Numbers</h2>
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-number" data-count="50000">0</div>
+                    <div class="metric-label">Youth Engaged</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-number" data-count="120">0</div>
+                    <div class="metric-label">Communities Transformed</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-number" data-count="85">0%</div>
+                    <div class="metric-label">Program Sustainability Rate</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-number" data-count="15">0</div>
+                    <div class="metric-label">African Countries</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Insights -->
+        <section class="video-insights fade-in">
+            <h2 class="section-title">Video Insights</h2>
+            <div class="video-grid">
+                <!-- Video 1 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Community Sports Impact">
+                        <div class="play-button" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-content">
+                        <h3 class="video-title">The Power of Community Sports</h3>
+                        <p class="video-description">See how grassroots sports programs are transforming lives in Nairobi's informal settlements.</p>
+                        <div class="video-meta">
+                            <span>12:45</span>
+                            <span>March 1, 2024</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Women in Sports">
+                        <div class="play-button" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-content">
+                        <h3 class="video-title">Breaking Gender Barriers</h3>
+                        <p class="video-description">How sports are empowering women and girls across East Africa to become leaders.</p>
+                        <div class="video-meta">
+                            <span>08:30</span>
+                            <span>Feb 15, 2024</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sustainable Sports">
+                        <div class="play-button" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-content">
+                        <h3 class="video-title">Sustainable Sports Development</h3>
+                        <p class="video-description">Our approach to creating self-sustaining sports ecosystems in African communities.</p>
+                        <div class="video-meta">
+                            <span>15:20</span>
+                            <span>Jan 28, 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Signup -->
+        <section class="insights-newsletter fade-in">
+            <h2 class="newsletter-title">Get Exclusive Insights</h2>
+            <p class="newsletter-text">Subscribe to our monthly newsletter for in-depth stories, research findings, and exclusive content about sports development in Africa.</p>
+            <form class="newsletter-form" id="insightsNewsletter">
+                <input type="email" placeholder="Enter your email address" required>
+                <button type="submit" class="subscribe-btn">Subscribe</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="pact-footer">
+        <div class="footer-container">
+            
+            <!-- Newsletter Section -->
+            <div class="footer-newsletter-section">
+                <h2 class="footer-newsletter-title">STAY CONNECTED WITH OUR STORIES</h2>
+                <p class="footer-newsletter-description">
+                    Subscribe to receive our latest impact stories, research insights, and updates from the field.
+                </p>
+                <form class="footer-newsletter-form">
+                    <input type="email" placeholder="Your email address..." required>
+                    <button type="submit" class="footer-signup-btn">Sign Up</button>
+                </form>
+            </div>
+
+            <hr class="footer-divider">
+
+            <!-- Bottom Section -->
+            <div class="footer-bottom-section">
+                <div class="footer-column">
+                    <ul class="footer-menu">
+                        <li><a href="index.html">HOME</a></li>
+                        <li><a href="about.html">ABOUT</a></li>
+                        <li><a href="events.html">EVENTS</a></li>
+                        <li><a href="stories.html">STORIES</a></li>
+                        <li><a href="get-involved.html">GET INVOLVED</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3 class="footer-heading">CONTACT</h3>
+                    <div class="contact-info">
+                        <p><strong>Ni-Wakati Sports Africa</strong></p>
+                        <p>Nairobi, Kenya</p>
+                        <p>P: +254 700 000 000</p>
+                        <p>stories@niwakati-sports.org</p>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3 class="footer-heading">FIND US ON</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Facebook</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">YouTube</a>
+                        <a href="#" class="social-link">Instagram</a>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="footer-divider">
+
+            <div class="copyright-section">
+                <p class="copyright-text">©2024 Ni-Wakati Sports Africa. All rights reserved.</p>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-modal-content">
+            <button class="video-modal-close" onclick="closeVideo()">&times;</button>
+            <iframe id="videoPlayer" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- Distortion Filter SVG -->
+    <svg style="display: none">
+        <defs>
+            <filter id="wave-distort" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence
+                    type="fractalNoise"
+                    baseFrequency="0.0038 0.0038"
+                    numOctaves="1"
+                    seed="2"
+                    result="roughNoise"
+                />
+                <feGaussianBlur in="roughNoise" stdDeviation="8.5" result="softNoise" />
+                <feComposite
+                    operator="arithmetic"
+                    k1="0"
+                    k2="1"
+                    k3="2"
+                    k4="0"
+                    in="softNoise"
+                    result="mergedMap"
+                />
+                <feDisplacementMap
+                    in="SourceGraphic"
+                    in2="mergedMap"
+                    scale="-42"
+                    xChannelSelector="G"
+                    yChannelSelector="G"
+                />
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- Font Awesome for icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+    <script>
+        // Stories data
+        const stories = [
+            {
+                id: 1,
+                title: "From Slum to Stadium: How Football Changed 1,000 Lives in Kibera",
+                category: "Impact Story",
+                excerpt: "Meet Sarah, a 16-year-old from Nairobi's largest informal settlement who went from playing football in muddy alleys to captaining her national youth team.",
+                image: "https://images.unsplash.com/photo-1575361204480-aadea25e6e68?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                author: "Amina Diallo",
+                date: "March 15, 2024",
+                readTime: "8 min read",
+                badge: "impact"
+            }
+        ];
+
+        // Videos data
+        const videos = [
+            {
+                id: 1,
+                title: "The Power of Community Sports",
+                description: "See how grassroots sports programs are transforming lives in Nairobi's informal settlements.",
+                thumbnail: "https://images.unsplash.com/photo-1546519638-68e109498ffc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                duration: "12:45",
+                date: "March 1, 2024",
+                url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+            }
+        ];
+
+        // Animated counters
+        function animateCounters() {
+            const counters = document.querySelectorAll('.metric-number');
+            counters.forEach(counter => {
+                const text = counter.textContent;
+                const target = parseInt(text.replace(/[^0-9]/g, ''));
+                const hasPercent = text.includes('%');
+                
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+                
+                const updateCounter = () => {
+                    current += step;
+                    if (current < target) {
+                        counter.textContent = Math.floor(current) + (hasPercent ? '%' : '');
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target + (hasPercent ? '%' : '');
+                    }
+                };
+                
+                updateCounter();
+            });
+        }
+
+        // Video player functions
+        function playVideo(url) {
+            const modal = document.getElementById('videoModal');
+            const player = document.getElementById('videoPlayer');
+            player.src = url;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVideo() {
+            const modal = document.getElementById('videoModal');
+            const player = document.getElementById('videoPlayer');
+            player.src = '';
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Navigation animation - EXACT SAME AS INDEX.HTML
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('nav > ul');
+            const items = document.querySelectorAll('nav > ul > li > a');
+            let anim = null;
+            let currentActiveItem = document.querySelector('nav > ul > li > a.active');
+
+            const animate = (from, to) => {
+                if (anim) clearInterval(anim);
+
+                const start = Date.now();
+                anim = setInterval(() => {
+                    const p = Math.min((Date.now() - start) / 500, 1);
+                    const e = 1 - Math.pow(1 - p, 3);
+
+                    const x = from + (to - from) * e;
+                    const y = -40 * (4 * e * (1 - e));
+                    const r = 200 * Math.sin(p * Math.PI);
+
+                    nav.style.setProperty('--translate-x', `${x}px`);
+                    nav.style.setProperty('--translate-y', `${y}px`);
+                    nav.style.setProperty('--rotate-x', `${r}deg`);
+
+                    if (p >= 1) {
+                        clearInterval(anim);
+                        anim = null;
+                        nav.style.setProperty('--translate-y', '0px');
+                        nav.style.setProperty('--rotate-x', '0deg');
+                    }
+                }, 16);
+            };
+
+            const getCurrentPosition = () => parseFloat(nav.style.getPropertyValue('--translate-x')) || 0;
+
+            const getItemCenter = (item) => {
+                return item.getBoundingClientRect().left + item.offsetWidth / 2 - nav.getBoundingClientRect().left - 5;
+            };
+
+            const moveToItem = (item) => {
+                const current = getCurrentPosition();
+                const center = getItemCenter(item);
+                animate(current, center);
+                nav.classList.add('show-indicator');
+            };
+
+            const setActiveItem = (item) => {
+                if (currentActiveItem) {
+                    currentActiveItem.classList.remove('active');
+                }
+
+                currentActiveItem = item;
+                item.classList.add('active');
+                moveToItem(item);
+            };
+
+            const handleMouseLeave = () => {
+                if (currentActiveItem) {
+                    moveToItem(currentActiveItem);
+                } else {
+                    nav.classList.remove('show-indicator');
+                    if (anim) clearInterval(anim);
+                }
+            };
+
+            items.forEach(item => {
+                item.addEventListener('mouseenter', () => moveToItem(item));
+                item.addEventListener('mouseleave', handleMouseLeave);
+            });
+
+            nav.addEventListener('mouseleave', handleMouseLeave);
+            
+            // Set initial active item
+            if (currentActiveItem) {
+                setTimeout(() => {
+                    moveToItem(currentActiveItem);
+                }, 100);
+            }
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.dropDown-menu')) {
+                    document.querySelectorAll('.dropDown-menu > ul').forEach(menu => {
+                        menu.style.opacity = '0';
+                        menu.style.visibility = 'hidden';
+                        menu.style.transform = 'translateY(-10px)';
+                    });
+                }
+            });
+
+            // Animate counters when impact section is in view
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounters();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            const impactSection = document.querySelector('.impact-metrics');
+            if (impactSection) {
+                observer.observe(impactSection);
+            }
+
+            // Update copyright year
+            const currentYear = new Date().getFullYear();
+            const copyrightText = document.querySelector('.copyright-text');
+            if (copyrightText) {
+                copyrightText.textContent = copyrightText.textContent.replace('2024', currentYear);
+            }
+
+            // Newsletter form submissions
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = this.querySelector('input[type="email"]').value;
+                    
+                    if (email) {
+                        alert(`Thank you for subscribing with: ${email}\nYou'll receive our latest stories and insights shortly.`);
+                        this.reset();
+                    }
+                });
+            });
+
+            // Scroll animations
+            function handleScrollAnimations() {
+                const fadeElements = document.querySelectorAll('.fade-in');
+                
+                fadeElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementTop < windowHeight - 100) {
+                        element.classList.add('visible');
+                    }
+                });
+            }
+
+            // Initial check for scroll animations
+            handleScrollAnimations();
+
+            // Listen for scroll events
+            window.addEventListener('scroll', handleScrollAnimations);
+
+            // Close video modal when clicking outside
+            const videoModal = document.getElementById('videoModal');
+            if (videoModal) {
+                videoModal.addEventListener('click', (e) => {
+                    if (e.target === videoModal) {
+                        closeVideo();
+                    }
+                });
+            }
+
+            // Close video modal with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeVideo();
+                }
+            });
+
+            // Story card click handlers
+            document.querySelectorAll('.story-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.closest('.read-more')) {
+                        const title = this.querySelector('.story-title').textContent;
+                        const excerpt = this.querySelector('.story-excerpt').textContent;
+                        const author = this.querySelector('.story-author span').textContent;
+                        const date = this.querySelector('.story-meta span:last-child').textContent;
+                        
+                        alert(`Story Preview:\n\n${title}\n\n${excerpt}\n\nBy ${author} • ${date}\n\nFull story coming soon!`);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

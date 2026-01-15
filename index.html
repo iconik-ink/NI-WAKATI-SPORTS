@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ni-Wakati Sports Africa | Home</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #000;
+            overflow-x: hidden;
+        }
+        
+        html, body {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+       
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            padding-top: 30px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .logo {
+            position: absolute;
+            left: 10px;
+            top: 30px;
+            height: 90px;
+            width: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 4px 16px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            z-index: 1002;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 4px 16px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.15),
+                0 6px 20px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .logo img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        nav {
+            position: relative;
+            width: fit-content;
+            margin: 0 auto;
+            margin-top: 0;
+            padding: 0 30px;
+            background: rgba(255, 255, 255, 0.5);
+            overflow: visible;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 4px 16px rgba(0, 0, 0, 0.05);
+            z-index: 1001;
+        }
+
+        nav:before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: url(#wave-distort);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        nav > ul {   
+            position: relative;
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            height: 55px;
+            isolation: isolate;
+            padding: 0 15px;
+            z-index: 2;
+        }
+        
+        nav > ul::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 6px;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            transform: translateX(var(--translate-x, 0)) translateY(var(--translate-y, 0)) rotate(var(--rotate-x, 0deg));
+            transition: none;
+            opacity: 0;
+            z-index: -1;
+            box-shadow: 
+                0 4px 16px rgba(255, 255, 255, 0.4),
+                0 2px 8px rgba(255, 255, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        
+        nav > ul li {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav > ul li a {
+            position: relative;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding-inline: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 8px;
+        }
+        
+        nav > ul li a:hover {
+            color: #000000;
+            transform: translateY(-2px);
+        }
+        
+        nav > ul li a:focus {
+            outline: none;
+        }
+        
+        nav > ul li a.active {
+            color: #000000;
+            transform: translateY(-2px);
+        }
+        
+        nav > ul.show-indicator::after {
+            opacity: 1;
+        }
+        
+        nav > ul li a:active {
+            transform: translateY(-2px);
+        }
+        
+        /* Dropdown Styles */
+        .dropDown-menu {
+            position: relative;
+        }
+
+        .dropDown-menu > a {
+            position: relative;
+            padding-right: 35px !important;
+        }
+
+        .dropDown-menu > a:after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 5px 5px 0 5px;
+            border-color: #666 transparent transparent transparent;
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
+        }
+
+        .dropDown-menu:hover > a:after {
+            border-color: transparent transparent #2c7a2c transparent;
+            border-width: 0 5px 5px 5px;
+        }
+
+        .dropDown-menu > ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            min-width: 220px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 4px 16px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1003;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropDown-menu:hover > ul {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(5px);
+        }
+
+        .dropDown-menu > ul > li > a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .dropDown-menu > ul > li > a:hover {
+            background-color: rgba(44, 122, 44, 0.1);
+            color: #2c7a2c;
+            padding-left: 25px;
+        }
+
+        /* HOME PAGE STYLES */
+        .hero-section {
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('assets/img/Start.jpg') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+            margin-top: -30px;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content h2 {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 30px;
+            color: #2c7a2c;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-primary {
+            background-color: #2c7a2c;
+            color: white;
+            border: 2px solid #2c7a2c;
+        }
+
+        .cta-primary:hover {
+            background-color: #1e5e1e;
+            border-color: #1e5e1e;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(44, 122, 44, 0.3);
+        }
+
+        .cta-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .cta-secondary:hover {
+            background-color: white;
+            color: black;
+            transform: translateY(-3px);
+        }
+
+        /* Slider Section */
+        .slider-section {
+            padding: 100px 20px;
+            background-color: #0a0a0a;
+        }
+
+        .section-title {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+        }
+
+        .slider-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 500px;
+            position: relative;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            color: white;
+            padding: 40px;
+        }
+
+        .slide-content h3 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .slider-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slider-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: white;
+        }
+
+        /* Banners Section */
+        .banners-section {
+            padding: 100px 20px;
+            background-color: #000;
+        }
+
+        .banner-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .banner {
+            background: linear-gradient(135deg, #1a1a1a, #333);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            height: 300px;
+            position: relative;
+        }
+
+        .banner:hover {
+            transform: translateY(-10px);
+        }
+
+        .banner-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            color: white;
+        }
+
+        .banner h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #2c7a2c;
+        }
+
+        .banner-cta {
+            display: inline-block;
+            margin-top: 15px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 20px;
+            background: rgba(44, 122, 44, 0.3);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .banner-cta:hover {
+            background: #2c7a2c;
+            transform: translateX(5px);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 80px 20px;
+            background: linear-gradient(45deg, #0a2e0a, #1e5e1e);
+            color: white;
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            color: #fff;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        /* Media Queries */
+        @media (max-width: 1024px) {
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            
+            .hero-content h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding-top: 20px;
+            }
+            
+            .logo {
+                left: 20px;
+                top: 20px;
+                height: 60px;
+                width: 60px;
+            }
+            
+            nav {
+                padding: 0 15px;
+                width: calc(100% - 100px);
+                margin-left: 80px;
+            }
+            
+            nav > ul {
+                height: 50px;
+                padding: 0 5px;
+                justify-content: space-between;
+            }
+            
+            nav > ul li a {
+                padding-inline: 10px;
+                font-size: 0.85rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .slide-content {
+                padding: 20px;
+            }
+            
+            .slide-content h3 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content h2 {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .banner-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+    <div class="logo">
+        <img src="assets/img/logo.jpg" alt="Logo">
+    </div>
+    <nav>
+        <ul>
+            <li>
+                <a href="index.html" class="active">Home</a>
+            </li>
+            <li class="dropDown-menu">
+                <a href="about.html">About</a>
+                <ul>
+                    <li><a href="about.html#vision">Mission & Vision</a></li>
+                    <li><a href="about.html#programs">Our Programs</a></li>
+                    <li><a href="about.html#principles">Core Principles</a></li>
+                </ul>
+            </li>
+            <li class="dropDown-menu">
+                <a href="events.html">Events</a>
+                <ul>
+                    <li><a href="events.html#sports">Sports & Tourism</a></li>
+                    <li><a href="events.html#emerging">Emerging Sports</a></li>
+                </ul>
+            </li>
+            <li class="dropDown-menu">
+                <a href="insights.html">Stories & Insights</a>
+                <ul>
+                    <li><a href="insights.html#impact">Impact & Sustainability</a></li>
+                </ul>
+            </li>
+            <li class="dropDown-menu">
+                <a href="involved.html">Get Involved</a>
+                <ul>
+                    <li><a href="involved.html#partnerships">Partnerships</a></li>
+                    <li><a href="involved.html#partner">Partner With Us</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-content">
+            <h1>Pan-African Sports Development & Events Platform</h1>
+            <h2>Building Inclusive Sports Ecosystems Across Africa</h2>
+            <p>Ni-Wakati Sports Africa partners with brands, governments, and communities to champion emerging sports, drive tourism, foster innovation, and create sustainable impact through sport.</p>
+            <div class="cta-buttons">
+                <a href="#involve" class="cta-button cta-primary">Partner With Us</a>
+                <a href="#programs" class="cta-button cta-secondary">Explore Our Programs</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slider Section -->
+    <section class="slider-section">
+        <h2 class="section-title">Our Impact Stories</h2>
+        <div class="slider-container">
+            <div class="slider" id="slider">
+                <div class="slide">
+                    <img src="assets/img/community 1.webp" alt="Community Sports">
+                    <div class="slide-content">
+                        <h3>Community Sports Development</h3>
+                        <p>Transforming lives through accessible sports programs in underserved communities across Africa.</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="assets/img/A.jpg" alt="Youth Empowerment">
+                    <div class="slide-content">
+                        <h3>Youth Empowerment</h3>
+                        <p>Creating opportunities for young athletes to excel and become leaders in their communities.</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="assets/img/gga.jpg" alt="Sports Tourism">
+                    <div class="slide-content">
+                        <h3>Sports Tourism Initiative</h3>
+                        <p>Promoting Africa as a premier destination for international sports events and competitions.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-controls">
+                <button class="slider-btn prev-btn">←</button>
+                <button class="slider-btn next-btn">→</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Banners Section -->
+    <section class="banners-section">
+        <h2 class="section-title">Our Core Initiatives</h2>
+        <div class="banner-grid">
+            <div class="banner">
+                <div class="banner-content">
+                    <h3>Sports & Tourism</h3>
+                    <p>Developing sports infrastructure and events that promote tourism and economic growth.</p>
+                    <a href="#sports" class="banner-cta">Learn More →</a>
+                </div>
+            </div>
+            <div class="banner">
+                <div class="banner-content">
+                    <h3>Emerging Sports</h3>
+                    <p>Supporting new and alternative sports to create diverse opportunities for athletes.</p>
+                    <a href="#emerging" class="banner-cta">Discover →</a>
+                </div>
+            </div>
+            <div class="banner">
+                <div class="banner-content">
+                    <h3>Sustainable Development</h3>
+                    <p>Creating lasting impact through environmentally conscious sports initiatives.</p>
+                    <a href="#sustainability" class="banner-cta">Explore →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>50+</h3>
+                <p>Communities Reached</p>
+            </div>
+            <div class="stat-item">
+                <h3>10K+</h3>
+                <p>Youth Engaged</p>
+            </div>
+            <div class="stat-item">
+                <h3>100+</h3>
+                <p>Events Organized</p>
+            </div>
+            <div class="stat-item">
+                <h3>25+</h3>
+                <p>Partners</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pact-footer">
+        <!-- Your existing footer code remains here -->
+    </footer>
+
+    <svg style="display: none">
+        <defs>
+            <filter id="wave-distort" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence
+                    type="fractalNoise"
+                    baseFrequency="0.0038 0.0038"
+                    numOctaves="1"
+                    seed="2"
+                    result="roughNoise"
+                />
+                <feGaussianBlur in="roughNoise" stdDeviation="8.5" result="softNoise" />
+                <feComposite
+                    operator="arithmetic"
+                    k1="0"
+                    k2="1"
+                    k3="2"
+                    k4="0"
+                    in="softNoise"
+                    result="mergedMap"
+                />
+                <feDisplacementMap
+                    in="SourceGraphic"
+                    in2="mergedMap"
+                    scale="-42"
+                    xChannelSelector="G"
+                    yChannelSelector="G"
+                />
+            </filter>
+        </defs>
+    </svg>
+
+    <script>
+        // Slider functionality
+        const slider = document.getElementById('slider');
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+
+        function updateSlider() {
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        });
+
+        // Auto slide every 5 seconds
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        }, 5000);
+
+        // Navigation active state
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('nav > ul');
+            const items = document.querySelectorAll('nav > ul > li > a');
+            
+            // Set home as active by default
+            const homeLink = document.querySelector('nav > ul > li:first-child > a');
+            if (homeLink) {
+                homeLink.classList.add('active');
+            }
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

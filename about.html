@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Ni-Wakati Sports Africa</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        html, body {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+       
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            padding-top: 30px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .logo {
+            position: absolute;
+            left: 10px;
+            top: 30px;
+            height: 90px;
+            width: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 4px 16px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            z-index: 1002;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 4px 16px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.15),
+                0 6px 20px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .logo img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        nav {
+            position: relative;
+            width: fit-content;
+            margin: 0 auto;
+            margin-top: 0;
+            padding: 0 30px;
+            background: rgba(255, 255, 255, 0.5);
+            overflow: visible;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 4px 16px rgba(0, 0, 0, 0.05);
+            z-index: 1001;
+        }
+
+        nav:before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: url(#wave-distort);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        nav > ul {   
+            position: relative;
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            height: 55px;
+            isolation: isolate;
+            padding: 0 15px;
+            z-index: 2;
+        }
+        
+        nav > ul::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 6px;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            transform: translateX(var(--translate-x, 0)) translateY(var(--translate-y, 0)) rotate(var(--rotate-x, 0deg));
+            transition: none;
+            opacity: 0;
+            z-index: -1;
+            box-shadow: 
+                0 4px 16px rgba(255, 255, 255, 0.4),
+                0 2px 8px rgba(255, 255, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        
+        nav > ul li {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Active state for dropdown main links */
+        a.active {
+            color: #2c7a2c !important;
+            font-weight: 700;
+            position: relative;
+        }
+
+        a.active:hover {
+            color: #1e5e1e !important;
+        }
+
+        ul li a.active {
+            color: #2c7a2c !important;
+            background-color: rgba(44, 122, 44, 0.1);
+            font-weight: 600;
+        }
+
+        nav > ul li a {
+            position: relative;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding-inline: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 8px;
+        }
+        
+        nav > ul li a:hover {
+            color: #000000;
+            transform: translateY(-2px);
+        }
+        
+        nav > ul li a:focus {
+            outline: none;
+        }
+        
+        nav > ul.show-indicator::after {
+            opacity: 1;
+        }
+        
+        nav > ul li a:active {
+            transform: translateY(-2px);
+        }
+        
+        /* Dropdown Styles */
+        .dropDown-menu {
+            position: relative;
+        }
+
+        .dropDown-menu > a {
+            position: relative;
+            padding-right: 35px !important;
+        }
+
+        .dropDown-menu > a:after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 5px 5px 0 5px;
+            border-color: #666 transparent transparent transparent;
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
+        }
+
+        .dropDown-menu:hover > a:after {
+            border-color: transparent transparent #2c7a2c transparent;
+            border-width: 0 5px 5px 5px;
+        }
+
+        .dropDown-menu > ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            min-width: 220px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 4px 16px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1003;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropDown-menu:hover > ul {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(5px);
+        }
+
+        .dropDown-menu > ul > li {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .dropDown-menu > ul > li > a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .dropDown-menu > ul > li:last-child > a {
+            border-bottom: none;
+        }
+
+        .dropDown-menu > ul > li > a:hover {
+            background-color: rgba(44, 122, 44, 0.1);
+            color: #2c7a2c;
+            padding-left: 25px;
+        }
+
+        /* Main Content Styles */
+        .about-hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding-top: 120px;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)),
+                url('assets/img/gga.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 0 20px;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #2c7a2c, #3b9c3b, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientShift 8s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        /* Section Styles */
+        .section {
+            margin-bottom: 120px;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+            color: #fff;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #2c7a2c, #10b981);
+            border-radius: 2px;
+        }
+
+        /* Story Section */
+        .story-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .story-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .story-text p {
+            margin-bottom: 25px;
+        }
+
+        .story-visual {
+            position: relative;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .story-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(44, 122, 44, 0.3), rgba(16, 185, 129, 0.3));
+            z-index: 1;
+        }
+
+        .story-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .story-visual:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Principles Grid */
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .principle-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .principle-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(44, 122, 44, 0.5);
+            box-shadow: 0 20px 40px rgba(44, 122, 44, 0.1);
+        }
+
+        .principle-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #2c7a2c, #10b981);
+        }
+
+        .principle-icon {
+            font-size: 2.5rem;
+            color: #2c7a2c;
+            margin-bottom: 20px;
+        }
+
+        .principle-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .principle-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Impact Stats */
+        .impact-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .stat-item {
+            position: relative;
+            padding: 30px;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #2c7a2c, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .team-member {
+            text-align: center;
+            position: relative;
+        }
+
+        .member-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 20px;
+            border: 4px solid transparent;
+            background: linear-gradient(45deg, #2c7a2c, #10b981) border-box;
+            position: relative;
+        }
+
+        .member-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            padding: 4px;
+            background: #000;
+        }
+
+        .member-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        .member-role {
+            color: #2c7a2c;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .member-bio {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+
+        /* CTA Section - FIXED */
+        .cta-section {
+            text-align: center;
+            padding: 100px 40px;
+            background: linear-gradient(135deg, 
+                rgba(44, 122, 44, 0.9), 
+                rgba(16, 185, 129, 0.9),
+                rgba(30, 94, 30, 0.8));
+            border-radius: 30px;
+            margin: 100px 20px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(44, 122, 44, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(44, 122, 44, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.3) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .cta-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-text {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.95);
+            max-width: 700px;
+            margin: 0 auto 50px;
+            line-height: 1.7;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #2c7a2c, #10b981, #1e5e1e);
+            color: white;
+            padding: 18px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+            box-shadow: 0 10px 30px rgba(44, 122, 44, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            transition: left 0.7s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(44, 122, 44, 0.6);
+            background: linear-gradient(45deg, #1e5e1e, #2c7a2c, #10b981);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:active {
+            transform: translateY(-2px);
+        }
+
+        /* FOOTER STYLES */
+        .pact-footer {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+            padding: 40px 0 20px;
+            border-top: 1px solid #ffffff;
+            margin-top: 100px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Newsletter Section */
+        .newsletter-section {
+            margin-bottom: 40px;
+        }
+
+        .newsletter-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .newsletter-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #999;
+            margin-bottom: 25px;
+            max-width: 700px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 15px;
+            max-width: 500px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #444;
+            border-radius: 3px;
+            font-size: 0.95rem;
+            color: #fff;
+            background-color: #222;
+            transition: border-color 0.3s ease;
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: #2c7a2c;
+            box-shadow: 0 0 0 2px rgba(44, 122, 44, 0.1);
+        }
+
+        .newsletter-form input::placeholder {
+            color: #777;
+        }
+
+        .signup-btn {
+            background-color: #2c7a2c;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 3px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .signup-btn:hover {
+            background-color: #1e5e1e;
+        }
+
+        /* Footer Divider */
+        .footer-divider {
+            border: none;
+            height: 1px;
+            background-color: #333;
+            margin: 30px 0;
+        }
+
+        /* Bottom Section */
+        .footer-bottom-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .footer-bottom-section {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-bottom-section {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+        }
+
+        .footer-heading {
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Menu Links */
+        .footer-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-menu li {
+            margin-bottom: 10px;
+        }
+
+        .footer-menu a {
+            color: #999;
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            letter-spacing: 0.3px;
+        }
+
+        .footer-menu a:hover {
+            color: #2c7a2c;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #999;
+        }
+
+        .contact-info p {
+            margin-bottom: 8px;
+        }
+
+        .contact-info strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .social-link {
+            color: #999;
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            letter-spacing: 0.3px;
+        }
+
+        .social-link:hover {
+            color: #2c7a2c;
+        }
+
+        /* Copyright */
+        .copyright-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .copyright-text {
+            font-size: 0.85rem;
+            color: #777;
+            letter-spacing: 0.3px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+
+            .story-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .story-visual {
+                height: 300px;
+            }
+
+            .cta-title {
+                font-size: 2.5rem;
+            }
+
+            .cta-section {
+                padding: 80px 30px;
+                margin: 80px 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .principles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .impact-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cta-title {
+                font-size: 2.2rem;
+            }
+
+            .cta-text {
+                font-size: 1.1rem;
+            }
+
+            .cta-section {
+                padding: 60px 20px;
+                margin: 60px 10px;
+            }
+            
+            /* Responsive nav */
+            .logo {
+                left: 20px;
+                top: 20px;
+                height: 60px;
+                width: 60px;
+            }
+            
+            nav {
+                padding: 0 15px;
+                width: calc(100% - 100px);
+                margin-left: 80px;
+            }
+            
+            nav > ul {
+                height: 50px;
+                padding: 0 5px;
+                justify-content: space-between;
+            }
+            
+            nav > ul li a {
+                padding-inline: 10px;
+                font-size: 0.85rem;
+            }
+            
+            .dropDown-menu > a {
+                padding-right: 25px !important;
+            }
+            
+            .dropDown-menu > ul {
+                min-width: 180px;
+                left: 50%;
+                transform: translateX(-50%) translateY(-10px);
+            }
+            
+            .dropDown-menu:hover > ul {
+                transform: translateX(-50%) translateY(5px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .impact-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-number {
+                font-size: 2.8rem;
+            }
+
+            .cta-title {
+                font-size: 1.8rem;
+            }
+
+            .cta-text {
+                font-size: 1rem;
+            }
+
+            .cta-button {
+                padding: 15px 30px;
+                font-size: 1rem;
+            }
+            
+            /* Responsive nav */
+            header {
+                padding-top: 15px;
+            }
+            
+            .logo {
+                left: 15px;
+                top: 15px;
+                height: 50px;
+                width: 50px;
+            }
+            
+            nav {
+                padding: 0 10px;
+                width: calc(100% - 80px);
+                margin-left: 70px;
+            }
+            
+            nav > ul {
+                height: 45px;
+            }
+            
+            nav > ul li a {
+                padding-inline: 8px;
+                font-size: 0.8rem;
+            }
+            
+            .dropDown-menu > a {
+                padding-right: 20px !important;
+            }
+            
+            .dropDown-menu > ul {
+                min-width: 160px;
+            }
+            
+            /* Responsive form */
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-form input,
+            .signup-btn {
+                width: 100%;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 1; /* CHANGED FROM 0 to 1 */
+            transform: translateY(0); /* CHANGED FROM 30px to 0 */
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Liquid Distortion Effect for Section Titles */
+        .liquid-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        .liquid-text::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #2c7a2c, transparent);
+            animation: liquidFlow 3s ease-in-out infinite;
+        }
+
+        @keyframes liquidFlow {
+            0%, 100% { transform: scaleX(0.3); opacity: 0.5; }
+            50% { transform: scaleX(1); opacity: 1; }
+        }
+
+        /* Ensure all content is visible */
+        .main-content {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .section {
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: block !important;
+        }
+
+        /* Ensure CTA section is always visible */
+        .cta-section {
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: block !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header>
+        <div class="logo">
+            <img src="assets/img/logo.jpg" alt="Logo">
+        </div>
+        <nav>
+            <ul>
+                <li>
+                    <a href="index.html">Home</a>
+                </li>
+                <li class="dropDown-menu">
+                    <a href="about.html" class="active">About</a>
+                    <ul>
+                        <li><a href="about.html#vision">Mission & Vision</a></li>
+                        <li><a href="about.html#programs">Our Programs</a></li>
+                        <li><a href="about.html#principles">Core Principles</a></li>
+                    </ul>
+                </li>
+                <li class="dropDown-menu">
+                    <a href="events.html">Events</a>
+                    <ul>
+                        <li><a href="events.html#sports">Sports & Tourism</a></li>
+                        <li><a href="events.html#emerging">Emerging Sports</a></li>
+                    </ul>
+                </li>
+                <li class="dropDown-menu">
+                    <a href="insights.html">Stories & Insights</a>
+                    <ul>
+                        <li><a href="insights.html#impact">Impact & Sustainability</a></li>
+                    </ul>
+                </li>
+                <li class="dropDown-menu">
+                    <a href="involved.html">Get Involved</a>
+                    <ul>
+                        <li><a href="involved.html#partnerships">Partnerships</a></li>
+                        <li><a href="involved.html#partner">Partner With Us</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">The Ni-Wakati Story</h1>
+            <p class="hero-subtitle">Reimagining Africa's Sports Ecosystem Through Community, Innovation & Sustainable Impact</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Our Story Section -->
+        <section class="section fade-in" id="vision">
+            <h2 class="section-title liquid-text">Our Genesis</h2>
+            <div class="story-container">
+                <div class="story-text">
+                    <p>Born from a vision to bridge Africa's sports development gap, Ni-Wakati Sports Africa emerged as a response to the untapped potential within communities across the continent. "Ni-Wakati" — Swahili for "It's Time" — reflects our urgent call to action.</p>
+                    
+                    <p>We observed a disconnect: while Africa produces world-class athletic talent, grassroots sports infrastructure remains underdeveloped. Our founders — sports professionals, community organizers, and development experts — united around a singular mission: to build inclusive sports ecosystems that serve as catalysts for social transformation.</p>
+                    
+                    <p>What began as local community soccer programs in Nairobi's informal settlements has evolved into a pan-African movement. Today, we partner with governments, international brands, and local communities to create sustainable sports development models that prioritize accessibility, innovation, and measurable impact.</p>
+                </div>
+                <div class="story-visual">
+                    <img src="assets/img/community1.webp" alt="Community Sports">
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Vision & Mission -->
+        <section class="section fade-in" id="programs">
+            <h2 class="section-title liquid-text">Our Compass</h2>
+            <div class="principles-grid">
+                <div class="principle-card">
+                    <div class="principle-icon">🌍</div>
+                    <h3 class="principle-title">Vision</h3>
+                    <p class="principle-description">To see every African community empowered through accessible, innovative sports ecosystems that drive social cohesion, economic opportunity, and continental pride.</p>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-icon">🎯</div>
+                    <h3 class="principle-title">Mission</h3>
+                    <p class="principle-description">To partner with communities, institutions, and brands in developing sustainable sports programs that unlock potential, foster talent, and create lasting social impact across Africa.</p>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-icon">⚡</div>
+                    <h3 class="principle-title">The Ni-Wakati Difference</h3>
+                    <p class="principle-description">We don't just run events — we build ecosystems. Our approach integrates sports development with tourism, technology, and community enterprise to create self-sustaining models.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Impact -->
+        <section class="section fade-in">
+            <h2 class="section-title liquid-text">Our Footprint</h2>
+            <div class="impact-stats">
+                <div class="stat-item">
+                    <div class="stat-number" data-count="50">50+</div>
+                    <div class="stat-label">Communities Reached</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="120">120+</div>
+                    <div class="stat-label">Sports Programs</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="25">25+</div>
+                    <div class="stat-label">Partner Organizations</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="15">15+</div>
+                    <div class="stat-label">African Countries</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Principles -->
+        <section class="section fade-in" id="principles">
+            <h2 class="section-title liquid-text">Our Guiding Principles</h2>
+            <div class="principles-grid">
+                <div class="principle-card">
+                    <div class="principle-icon">🤝</div>
+                    <h3 class="principle-title">Community-Led Design</h3>
+                    <p class="principle-description">We don't impose solutions — we co-create with communities. Every program begins with listening, understanding local context, and building from existing strengths.</p>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-icon">🌱</div>
+                    <h3 class="principle-title">Sustainable Models</h3>
+                    <p class="principle-description">Our programs are designed for longevity. We train local coaches, establish management committees, and create revenue streams to ensure continuity beyond our direct involvement.</p>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-icon">🔗</div>
+                    <h3 class="principle-title">Cross-Sector Integration</h3>
+                    <p class="principle-description">We connect sports with tourism, education, health, and technology. A running event becomes a tourism opportunity. A soccer program integrates health education.</p>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-icon">📊</div>
+                    <h3 class="principle-title">Data-Driven Impact</h3>
+                    <p class="principle-description">Every program is measured against clear social impact metrics: youth engagement, skills development, health outcomes, and community cohesion indicators.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Team -->
+        <section class="section fade-in">
+            <h2 class="section-title liquid-text">Our Architects</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="assets/img/v2.jpg" alt="Founder">
+                    </div>
+                    <h3 class="member-name">Kwame Osei</h3>
+                    <div class="member-role">Founder & Executive Director</div>
+                    <p class="member-bio">Former professional athlete with 15+ years in sports development across Africa.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="assets/img/vision.jpg" alt="Program Director">
+                    </div>
+                    <h3 class="member-name">Amina Diallo</h3>
+                    <div class="member-role">Director of Programs</div>
+                    <p class="member-bio">Development specialist with expertise in community mobilization and impact measurement.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="assets/img/society.jpg" alt="Partnerships Lead">
+                    </div>
+                    <h3 class="member-name">David Mwangi</h3>
+                    <div class="member-role">Head of Partnerships</div>
+                    <p class="member-bio">Former corporate executive focused on building strategic alliances for social impact.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="assets/img/A.jpg" alt="Community Lead">
+                    </div>
+                    <h3 class="member-name">Fatima Bello</h3>
+                    <div class="member-role">Community Engagement Lead</div>
+                    <p class="member-bio">Grassroots organizer with deep experience in youth development across East Africa.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action - NOW VISIBLE -->
+        <section class="cta-section fade-in">
+            <h2 class="cta-title">Ready to Co-Create with Us?</h2>
+            <p class="cta-text">Whether you're a brand looking for meaningful partnerships, a community seeking sports development support, or an individual wanting to contribute — your journey with Ni-Wakati starts here.</p>
+            <a href="involved.html" class="cta-button">Join Our Movement</a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="pact-footer">
+        <div class="footer-container">
+            
+            <!-- Newsletter Section -->
+            <div class="newsletter-section">
+                <h2 class="newsletter-title">SIGN UP TO RECEIVE NEWS AND UPDATES FROM US.</h2>
+                <p class="newsletter-description">
+                    Ni-Wakati Sports e-newsletter offers the latest on our efforts to build thriving, resilient and engaged communities through sport.
+                </p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address..." required>
+                    <button type="submit" class="signup-btn">Sign Up</button>
+                </form>
+            </div>
+
+            <hr class="footer-divider">
+
+            <!-- Bottom Section -->
+            <div class="footer-bottom-section">
+                <div class="footer-column">
+                    <ul class="footer-menu">
+                        <li><a href="index.html">HOME</a></li>
+                        <li><a href="about.html">ABOUT</a></li>
+                        <li><a href="#contact">CONTACT</a></li>
+                        <li><a href="events.html">OUR EVENTS</a></li>
+                        <li><a href="#newsletter">NEWSLETTER</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3 class="footer-heading">CONTACT</h3>
+                    <div class="contact-info">
+                        <p><strong>Ni-Wakati Sports Africa</strong></p>
+                        <p>Nairobi, Kenya</p>
+                        <p>P: +254 700 000 000</p>
+                        <p>info@niwakati-sports.org</p>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3 class="footer-heading">FIND US ON</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Facebook</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">YouTube</a>
+                        <a href="#" class="social-link">Instagram</a>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="footer-divider">
+
+            <div class="copyright-section">
+                <p class="copyright-text">©2024 Ni-Wakati Sports Africa. All rights reserved.</p>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Distortion Filter SVG -->
+    <svg style="display: none">
+        <defs>
+            <filter id="wave-distort" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence
+                    type="fractalNoise"
+                    baseFrequency="0.0038 0.0038"
+                    numOctaves="1"
+                    seed="2"
+                    result="roughNoise"
+                />
+                <feGaussianBlur in="roughNoise" stdDeviation="8.5" result="softNoise" />
+                <feComposite
+                    operator="arithmetic"
+                    k1="0"
+                    k2="1"
+                    k3="2"
+                    k4="0"
+                    in="softNoise"
+                    result="mergedMap"
+                />
+                <feDisplacementMap
+                    in="SourceGraphic"
+                    in2="mergedMap"
+                    scale="-42"
+                    xChannelSelector="G"
+                    yChannelSelector="G"
+                />
+            </filter>
+        </defs>
+    </svg>
+
+    <script>
+        // Navigation animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.querySelector('nav > ul');
+            const items = document.querySelectorAll('nav > ul > li > a');
+            let anim = null;
+            let currentActiveItem = document.querySelector('nav > ul > li > a.active');
+
+            const animate = (from, to) => {
+                if (anim) clearInterval(anim);
+
+                const start = Date.now();
+                anim = setInterval(() => {
+                    const p = Math.min((Date.now() - start) / 500, 1);
+                    const e = 1 - Math.pow(1 - p, 3);
+
+                    const x = from + (to - from) * e;
+                    const y = -40 * (4 * e * (1 - e));
+                    const r = 200 * Math.sin(p * Math.PI);
+
+                    nav.style.setProperty('--translate-x', `${x}px`);
+                    nav.style.setProperty('--translate-y', `${y}px`);
+                    nav.style.setProperty('--rotate-x', `${r}deg`);
+
+                    if (p >= 1) {
+                        clearInterval(anim);
+                        anim = null;
+                        nav.style.setProperty('--translate-y', '0px');
+                        nav.style.setProperty('--rotate-x', '0deg');
+                    }
+                }, 16);
+            };
+
+            const getCurrentPosition = () => parseFloat(nav.style.getPropertyValue('--translate-x')) || 0;
+
+            const getItemCenter = (item) => {
+                return item.getBoundingClientRect().left + item.offsetWidth / 2 - nav.getBoundingClientRect().left - 5;
+            };
+
+            const moveToItem = (item) => {
+                const current = getCurrentPosition();
+                const center = getItemCenter(item);
+                animate(current, center);
+                nav.classList.add('show-indicator');
+            };
+
+            const handleMouseLeave = () => {
+                if (currentActiveItem) {
+                    moveToItem(currentActiveItem);
+                } else {
+                    nav.classList.remove('show-indicator');
+                    if (anim) clearInterval(anim);
+                }
+            };
+
+            items.forEach(item => {
+                item.addEventListener('mouseenter', () => moveToItem(item));
+                item.addEventListener('mouseleave', handleMouseLeave);
+                
+                // For dropdown main links, allow hover functionality
+                if (item.closest('.dropDown-menu')) {
+                    item.addEventListener('click', (e) => {
+                        // Only prevent default if it's the dropdown main link
+                        // to allow dropdown to open on click
+                        if (item.classList.contains('active')) {
+                            e.preventDefault();
+                        }
+                    });
+                }
+            });
+
+            nav.addEventListener('mouseleave', handleMouseLeave);
+            
+            // Set initial active item
+            if (currentActiveItem) {
+                setTimeout(() => {
+                    moveToItem(currentActiveItem);
+                }, 100);
+            }
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.dropDown-menu')) {
+                    document.querySelectorAll('.dropDown-menu > ul').forEach(menu => {
+                        menu.style.opacity = '0';
+                        menu.style.visibility = 'hidden';
+                        menu.style.transform = 'translateY(-10px)';
+                    });
+                }
+            });
+
+            // Animated counters for statistics
+            function animateCounters() {
+                const counters = document.querySelectorAll('.stat-number');
+                counters.forEach(counter => {
+                    const target = parseInt(counter.getAttribute('data-count'));
+                    const duration = 2000;
+                    const step = target / (duration / 16);
+                    let current = 0;
+                    
+                    const updateCounter = () => {
+                        current += step;
+                        if (current < target) {
+                            counter.textContent = Math.floor(current) + '+';
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            counter.textContent = target + '+';
+                        }
+                    };
+                    
+                    updateCounter();
+                });
+            }
+
+            // Initialize all sections as visible
+            function initializeSections() {
+                // Set all sections to visible immediately
+                const sections = document.querySelectorAll('.section');
+                sections.forEach(section => {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                    section.classList.add('visible');
+                });
+                
+                // Set CTA section to visible
+                const ctaSection = document.querySelector('.cta-section');
+                if (ctaSection) {
+                    ctaSection.style.opacity = '1';
+                    ctaSection.style.transform = 'translateY(0)';
+                    ctaSection.classList.add('visible');
+                }
+                
+                // Animate counters immediately
+                animateCounters();
+            }
+
+            // Scroll animations
+            function handleScrollAnimations() {
+                const fadeElements = document.querySelectorAll('.fade-in');
+                
+                fadeElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementTop < windowHeight - 100) {
+                        element.classList.add('visible');
+                    }
+                });
+            }
+
+            // Initialize everything on load
+            initializeSections();
+            handleScrollAnimations();
+
+            // Listen for scroll events
+            window.addEventListener('scroll', handleScrollAnimations);
+
+            // Update copyright year
+            const currentYear = new Date().getFullYear();
+            const copyrightText = document.querySelector('.copyright-text');
+            if (copyrightText) {
+                copyrightText.textContent = copyrightText.textContent.replace('2024', currentYear);
+            }
+
+            // Newsletter form submission
+            const newsletterForm = document.querySelector('.newsletter-form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = this.querySelector('input[type="email"]').value;
+                    
+                    if (email) {
+                        alert(`Thank you for subscribing with: ${email}\nYou'll receive updates from Ni-Wakati Sports Africa shortly.`);
+                        this.reset();
+                    }
+                });
+            }
+
+            // Handle anchor navigation within page
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#') return;
+                    
+                    // If it's an internal anchor on the same page
+                    if (href.includes('#') && !href.includes('.html')) {
+                        const targetId = href.replace('#', '');
+                        const targetElement = document.getElementById(targetId);
+                        
+                        if (targetElement) {
+                            e.preventDefault();
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Ensure CTA section is fully visible
+            setTimeout(() => {
+                const ctaSection = document.querySelector('.cta-section');
+                if (ctaSection) {
+                    ctaSection.style.opacity = '1';
+                    ctaSection.style.visibility = 'visible';
+                    ctaSection.style.display = 'block';
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>
