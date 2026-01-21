@@ -538,189 +538,126 @@
             color: #2c7a2c;
             margin-top: 3px;
         }
-        /* our partners */
-           .partners-section {
-            margin-bottom: 80px;
-            padding: 60px 0;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 30px;
-        }
 
-        .partners-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
 
-        .partners-title {
-            text-align: center;
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #fff;
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
-        }
+      /* Partners Carousel Styles */
+.partners-carousel {
+    position: relative;
+    max-width: 1200px;
+    margin: 40px auto 0;
+    overflow: hidden;
+}
 
-        .partners-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #2c7a2c, #10b981);
-            border-radius: 2px;
-        }
+.carousel-track-container {
+    overflow: hidden;
+    padding: 20px 0;
+}
 
-        .partners-subtitle {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.1rem;
-            max-width: 800px;
-            margin: 0 auto 50px;
-            line-height: 1.6;
-        }
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    gap: 30px;
+    padding: 0 15px;
+}
 
-        .partners-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
+.carousel-slide {
+    flex: 0 0 calc(33.333% - 20px);
+    min-width: 0;
+}
 
-        .partner-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 200px;
-        }
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(44, 122, 44, 0.8);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
 
-        .partner-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(44, 122, 44, 0.5);
-            box-shadow: 0 15px 30px rgba(44, 122, 44, 0.1);
-            background: rgba(255, 255, 255, 0.08);
-        }
+.carousel-btn:hover {
+    background: rgba(44, 122, 44, 1);
+    transform: translateY(-50%) scale(1.1);
+}
 
-        .partner-logo {
-            width: 120px;
-            height: 60px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
+.carousel-btn-prev {
+    left: 15px;
+}
 
-        .partner-logo img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            filter: brightness(0) invert(1);
-            transition: filter 0.3s ease;
-        }
+.carousel-btn-next {
+    right: 15px;
+}
 
-        .partner-card:hover .partner-logo img {
-            filter: brightness(1) invert(0);
-        }
+.carousel-btn span {
+    display: block;
+    line-height: 1;
+}
 
-        .partner-name {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #fff;
-        }
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 10px;
+}
 
-        .partner-type {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 15px;
-            padding: 4px 12px;
-            background: rgba(44, 122, 44, 0.2);
-            border-radius: 20px;
-            display: inline-block;
-        }
+.carousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
 
-        .partner-link {
-            display: inline-block;
-            color: #2c7a2c;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            padding: 8px 20px;
-            border: 2px solid #2c7a2c;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-        }
+.carousel-dot.active {
+    background: #2c7a2c;
+    transform: scale(1.2);
+}
 
-        .partner-link:hover {
-            background: #2c7a2c;
-            color: white;
-            transform: translateY(-2px);
-        }
+.carousel-dot:hover {
+    background: rgba(44, 122, 44, 0.6);
+}
 
-        .partner-description {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-top: 15px;
-        }
+/* Responsive Carousel */
+@media (max-width: 1024px) {
+    .carousel-slide {
+        flex: 0 0 calc(50% - 15px);
+    }
+}
 
-        .partner-placeholder {
-            font-size: 2.5rem;
-            color: rgba(255, 255, 255, 0.1);
-            margin-bottom: 15px;
-        }
+@media (max-width: 768px) {
+    .carousel-slide {
+        flex: 0 0 calc(100% - 30px);
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+}
 
-        /* Responsive adjustments for partners section */
-        @media (max-width: 1024px) {
-            .partners-grid {
-                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-                gap: 25px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .partners-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-            
-            .partner-card {
-                padding: 25px 20px;
-                min-height: 180px;
-            }
-            
-            .partners-title {
-                font-size: 2.2rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .partners-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .partners-section {
-                padding: 40px 0;
-            }
-            
-            .partner-card {
-                min-height: 160px;
-            }
-        }
+@media (max-width: 480px) {
+    .carousel-btn {
+        display: none; /* Hide arrows on very small screens */
+    }
+    
+    .carousel-track {
+        padding: 0 5px;
+    }
+}
 
         /* Volunteer Section */
         .volunteer-section {
@@ -1551,113 +1488,192 @@
             </div>
         </section>
 
-        <!-- our partners  -->
-             <!-- Partners Section - ADD THIS BEFORE THE FOOTER -->
-    <section class="partners-section fade-in">
-        <div class="partners-container">
-            <h2 class="partners-title">Our Partners</h2>
-            <p class="partners-subtitle">We're proud to collaborate with these visionary organizations who share our commitment to transforming lives through sports across Africa.</p>
-            
-            <div class="partners-grid">
-                <!-- Partner 1 -->
-                <div class="partner-card">
-                    <div class="partner-logo">
-                        <!-- Replace with actual logo image -->
-                        <!-- <img src="assets/img/partners/unicef-logo.png" alt="UNICEF"> -->
-                        <div class="partner-placeholder">🌍</div>
+       <!-- OUR PARTNERS -->
+<section class="partners-section fade-in">
+    <div class="partners-container">
+        <h2 class="partners-title">Our Partners</h2>
+        <p class="partners-subtitle">We're proud to collaborate with these visionary organizations who share our commitment to transforming lives through sports across Africa.</p>
+        
+        <!-- Carousel Container -->
+        <div class="partners-carousel">
+            <div class="carousel-track-container">
+                <div class="carousel-track">
+                    <!-- Partner 1 -->
+                    <div class="carousel-slide">
+                        <div class="partner-card">
+                            <div class="partner-logo">
+                                <!-- Replace with actual logo image -->
+                                <!-- <img src="assets/img/partners/unicef-logo.png" alt="UNICEF"> -->
+                                <div class="partner-placeholder">🌍</div>
+                            </div>
+                            <h3 class="partner-name">Global Sustainable Sports UK</h3>
+                            <span class="partner-type">Global Partner</span>
+                            <p class="partner-description">Offers partnership packages for organisations driving sustainability through sport globally.</p>
+                            <a href="https://www.globalsustainablesport.com/" target="_blank" class="partner-link">Visit Website</a>
+                        </div>
                     </div>
-                    <h3 class="partner-name">UNICEF</h3>
-                    <span class="partner-type">Global Partner</span>
-                    <p class="partner-description">Supporting youth sports development and child protection programs across Africa.</p>
-                    <a href="https://www.unicef.org" target="_blank" class="partner-link">Visit Website</a>
-                </div>
 
-                <!-- Partner 2 -->
-                <div class="partner-card">
-                    <div class="partner-logo">
-                        <!-- <img src="assets/img/partners/nike-logo.png" alt="Nike"> -->
-                        <div class="partner-placeholder">👟</div>
+                    <!-- Partner 2 -->
+                    <div class="carousel-slide">
+                        <div class="partner-card">
+                            <div class="partner-logo">
+                                <div class="partner-placeholder">👟</div>
+                            </div>
+                            <h3 class="partner-name">World Dodgeball Association</h3>
+                            <span class="partner-type">Global Partner</span>
+                            <p class="partner-description">Works with regional governing bodies to further dodgeball through grassroots and events.</p>
+                            <a href="https://www.dodgeball.sport/" target="_blank" class="partner-link">Visit Website</a>
+                        </div>
                     </div>
-                    <h3 class="partner-name">Nike Foundation</h3>
-                    <span class="partner-type">Sports Equipment Partner</span>
-                    <p class="partner-description">Providing quality sports equipment and training resources to communities.</p>
-                    <a href="https://www.nike.com" target="_blank" class="partner-link">Visit Website</a>
-                </div>
 
-                <!-- Partner 3 -->
-                <div class="partner-card">
-                    <div class="partner-logo">
-                        <!-- <img src="assets/img/partners/africa-sports-logo.png" alt="African Sports Council"> -->
-                        <div class="partner-placeholder">🤝</div>
+                    <!-- Partner 3 -->
+                    <div class="carousel-slide">
+                        <div class="partner-card">
+                            <div class="partner-logo">
+                                <div class="partner-placeholder">🤝</div>
+                            </div>
+                            <h3 class="partner-name">5thread</h3>
+                            <span class="partner-type">Global Partner</span>
+                            <p class="partner-description">Believes in a sustainable future through systems change in clothing and textiles.</p>
+                            <a href="https://5thread.com/" target="_blank" class="partner-link">Visit Website</a>
+                        </div>
                     </div>
-                    <h3 class="partner-name">African Sports Council</h3>
-                    <span class="partner-type">Regional Partner</span>
-                    <p class="partner-description">Collaborating on pan-African sports development initiatives and tournaments.</p>
-                    <a href="https://www.africansportscouncil.org" target="_blank" class="partner-link">Visit Website</a>
-                </div>
 
-                <!-- Partner 4 -->
-                <div class="partner-card">
-                    <div class="partner-logo">
-                        <!-- <img src="assets/img/partners/kenya-gov-logo.png" alt="Kenya Government"> -->
-                        <div class="partner-placeholder">🏛️</div>
+                    <!-- Partner 4 -->
+                    <div class="carousel-slide">
+                        <div class="partner-card">
+                            <div class="partner-logo">
+                                <div class="partner-placeholder">t</div>
+                            </div>
+                            <h3 class="partner-name">FTA and eSports Trampoline</h3>
+                            <span class="partner-type">Government Partner</span>
+                            <p class="partner-description">A community and organization for freestyle trampoline athletes, focusing on unique expression and style, distinct from Olympic trampoline.</p>
+                            <a href="https://www.freestyletrampolineassociation.com/?srsltid=AfmBOop-3S5gjHr2IoRafPCM1U60U_QpDXtyNQSyYWpXGIeTPbz3qLnG" target="_blank" class="partner-link">Visit Website</a>
+                        </div>
                     </div>
-                    <h3 class="partner-name">Ministry of Sports Kenya</h3>
-                    <span class="partner-type">Government Partner</span>
-                    <p class="partner-description">Partnering on national youth sports programs and infrastructure development.</p>
-                    <a href="https://www.sports.go.ke" target="_blank" class="partner-link">Visit Website</a>
-                </div>
 
-                <!-- Partner 5 -->
-                <div class="partner-card">
-                    <div class="partner-logo">
-                        <!-- <img src="assets/img/partners/red-cross-logo.png" alt="Red Cross"> -->
-                        <div class="partner-placeholder">❤️</div>
+                    <!-- Partner 5 -->
+                    <div class="carousel-slide">
+                        <div class="partner-card">
+                            <div class="partner-logo">
+                                <div class="partner-placeholder">❤️</div>
+                            </div>
+                            <h3 class="partner-name">International Red Cross</h3>
+                            <span class="partner-type">Humanitarian Partner</span>
+                            <p class="partner-description">Integrating sports in community health and disaster recovery programs.</p>
+                            <a href="https://www.icrc.org" target="_blank" class="partner-link">Visit Website</a>
+                        </div>
                     </div>
-                    <h3 class="partner-name">International Red Cross</h3>
-                    <span class="partner-type">Humanitarian Partner</span>
-                    <p class="partner-description">Integrating sports in community health and disaster recovery programs.</p>
-                    <a href="https://www.icrc.org" target="_blank" class="partner-link">Visit Website</a>
-                </div>
 
-                <!-- Partner 6 -->
-                <div class="partner-card">
-                    <div class="partner-logo">
-                        <!-- <img src="assets/img/partners/standard-chartered-logo.png" alt="Standard Chartered"> -->
-                        <div class="partner-placeholder">🏦</div>
+                    <!-- Partner 6 -->
+                    <div class="carousel-slide">
+                        <div class="partner-card">
+                            <div class="partner-logo">
+                                <div class="partner-placeholder">🏦</div>
+                            </div>
+                            <h3 class="partner-name">Standard Chartered</h3>
+                            <span class="partner-type">Corporate Sponsor</span>
+                            <p class="partner-description">Funding women's sports initiatives and financial literacy programs.</p>
+                            <a href="https://www.sc.com" target="_blank" class="partner-link">Visit Website</a>
+                        </div>
                     </div>
-                    <h3 class="partner-name">Standard Chartered</h3>
-                    <span class="partner-type">Corporate Sponsor</span>
-                    <p class="partner-description">Funding women's sports initiatives and financial literacy programs.</p>
-                    <a href="https://www.sc.com" target="_blank" class="partner-link">Visit Website</a>
-                </div>
 
-                <!-- Partner 7 -->
-                <div class="partner-card">
-                    <div class="partner-logo">
-                        <!-- <img src="assets/img/partners/unesco-logo.png" alt="UNESCO"> -->
-                        <div class="partner-placeholder">📚</div>
+                    <!-- Partner 7 -->
+                    <div class="carousel-slide">
+                        <div class="partner-card">
+                            <div class="partner-logo">
+                                <div class="partner-placeholder">📚</div>
+                            </div>
+                            <h3 class="partner-name">UNESCO</h3>
+                            <span class="partner-type">Education Partner</span>
+                            <p class="partner-description">Promoting sports as a tool for quality education and social inclusion.</p>
+                            <a href="https://www.unesco.org" target="_blank" class="partner-link">Visit Website</a>
+                        </div>
                     </div>
-                    <h3 class="partner-name">UNESCO</h3>
-                    <span class="partner-type">Education Partner</span>
-                    <p class="partner-description">Promoting sports as a tool for quality education and social inclusion.</p>
-                    <a href="https://www.unesco.org" target="_blank" class="partner-link">Visit Website</a>
-                </div>
 
-                <!-- Partner 8 -->
-                <div class="partner-card">
-                    <div class="partner-logo">
-                        <!-- <img src="assets/img/partners/google-logo.png" alt="Google"> -->
-                        <div class="partner-placeholder">🔍</div>
+                    <!-- Partner 8 -->
+                    <div class="carousel-slide">
+                        <div class="partner-card">
+                            <div class="partner-logo">
+                                <div class="partner-placeholder">🔍</div>
+                            </div>
+                            <h3 class="partner-name">Google.org</h3>
+                            <span class="partner-type">Technology Partner</span>
+                            <p class="partner-description">Digital skills training and technology infrastructure for sports programs.</p>
+                            <a href="https://www.google.org" target="_blank" class="partner-link">Visit Website</a>
+                        </div>
                     </div>
-                    <h3 class="partner-name">Google.org</h3>
-                    <span class="partner-type">Technology Partner</span>
-                    <p class="partner-description">Digital skills training and technology infrastructure for sports programs.</p>
-                    <a href="https://www.google.org" target="_blank" class="partner-link">Visit Website</a>
+
+                    <!-- Add 4 more partners as needed -->
+                    <!-- Partner 9 -->
+                    <div class="carousel-slide">
+                        <div class="partner-card">
+                            <div class="partner-logo">
+                                <div class="partner-placeholder">⚽</div>
+                            </div>
+                            <h3 class="partner-name">African Sports Council</h3>
+                            <span class="partner-type">Regional Partner</span>
+                            <p class="partner-description">Promoting sports development across the African continent.</p>
+                            <a href="#" target="_blank" class="partner-link">Visit Website</a>
+                        </div>
+                    </div>
+
+                    <!-- Partner 10 -->
+                    <div class="carousel-slide">
+                        <div class="partner-card">
+                            <div class="partner-logo">
+                                <div class="partner-placeholder">🎾</div>
+                            </div>
+                            <h3 class="partner-name">Sports Equipment Africa</h3>
+                            <span class="partner-type">Supplier Partner</span>
+                            <p class="partner-description">Providing quality sports equipment to communities across Africa.</p>
+                            <a href="#" target="_blank" class="partner-link">Visit Website</a>
+                        </div>
+                    </div>
+
+                    <!-- Partner 11 -->
+                    <div class="carousel-slide">
+                        <div class="partner-card">
+                            <div class="partner-logo">
+                                <div class="partner-placeholder">🏫</div>
+                            </div>
+                            <h3 class="partner-name">University of Nairobi</h3>
+                            <span class="partner-type">Academic Partner</span>
+                            <p class="partner-description">Research collaboration and student internship programs.</p>
+                            <a href="#" target="_blank" class="partner-link">Visit Website</a>
+                        </div>
+                    </div>
+
+                    <!-- Partner 12 -->
+                    <div class="carousel-slide">
+                        <div class="partner-card">
+                            <div class="partner-logo">
+                                <div class="partner-placeholder">🏥</div>
+                            </div>
+                            <h3 class="partner-name">Health First Africa</h3>
+                            <span class="partner-type">Health Partner</span>
+                            <p class="partner-description">Integrating health education with sports programs.</p>
+                            <a href="#" target="_blank" class="partner-link">Visit Website</a>
+                        </div>
+                    </div>
                 </div>
             </div>
+            
+            <!-- Carousel Navigation -->
+            <button class="carousel-btn carousel-btn-prev">
+                <span>&#10094;</span>
+            </button>
+            <button class="carousel-btn carousel-btn-next">
+                <span>&#10095;</span>
+            </button>
+            
+            <!-- Carousel Dots -->
+            <div class="carousel-dots">
+                <!-- Dots will be generated by JavaScript -->
+            </div>
         </div>
-    </section>
+    </div>
+</section>
 
 
         <!-- Volunteer Section -->
@@ -2156,6 +2172,129 @@
     <!-- Font Awesome for icons -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 
+    <script>
+        // Add this to your existing <script> tag
+
+// Partners Carousel Functionality
+function initPartnersCarousel() {
+    const track = document.querySelector('.carousel-track');
+    const slides = Array.from(document.querySelectorAll('.carousel-slide'));
+    const nextButton = document.querySelector('.carousel-btn-next');
+    const prevButton = document.querySelector('.carousel-btn-prev');
+    const dotsContainer = document.querySelector('.carousel-dots');
+    
+    if (!track || !slides.length) return;
+    
+    const slideWidth = slides[0].getBoundingClientRect().width;
+    let currentIndex = 0;
+    let slidesPerView = getSlidesPerView();
+    
+    // Create dots
+    slides.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.classList.add('carousel-dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => {
+            goToSlide(index);
+        });
+        dotsContainer.appendChild(dot);
+    });
+    
+    const dots = document.querySelectorAll('.carousel-dot');
+    
+    // Calculate slides per view based on screen size
+    function getSlidesPerView() {
+        if (window.innerWidth <= 480) return 1;
+        if (window.innerWidth <= 768) return 2;
+        return 3;
+    }
+    
+    // Update slide position
+    function updateSlidePosition() {
+        const gap = 30; // Same as CSS gap
+        const offset = (slideWidth + gap) * currentIndex;
+        track.style.transform = `translateX(-${offset}px)`;
+        
+        // Update active dot
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+        });
+    }
+    
+    // Go to specific slide
+    function goToSlide(index) {
+        const maxIndex = slides.length - slidesPerView;
+        currentIndex = Math.max(0, Math.min(index, maxIndex));
+        updateSlidePosition();
+    }
+    
+    // Next slide
+    function nextSlide() {
+        const maxIndex = slides.length - slidesPerView;
+        if (currentIndex < maxIndex) {
+            currentIndex++;
+            updateSlidePosition();
+        } else {
+            // Loop back to start
+            currentIndex = 0;
+            updateSlidePosition();
+        }
+    }
+    
+    // Previous slide
+    function prevSlide() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateSlidePosition();
+        } else {
+            // Loop to end
+            const maxIndex = slides.length - slidesPerView;
+            currentIndex = maxIndex;
+            updateSlidePosition();
+        }
+    }
+    
+    // Event listeners
+    nextButton.addEventListener('click', nextSlide);
+    prevButton.addEventListener('click', prevSlide);
+    
+    // Handle window resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            slidesPerView = getSlidesPerView();
+            goToSlide(Math.min(currentIndex, slides.length - slidesPerView));
+        }, 250);
+    });
+    
+    // Auto-advance carousel (optional)
+    let autoSlideInterval = setInterval(nextSlide, 5000);
+    
+    // Pause auto-advance on hover
+    const carousel = document.querySelector('.partners-carousel');
+    if (carousel) {
+        carousel.addEventListener('mouseenter', () => {
+            clearInterval(autoSlideInterval);
+        });
+        
+        carousel.addEventListener('mouseleave', () => {
+            autoSlideInterval = setInterval(nextSlide, 5000);
+        });
+    }
+    
+    // Initialize
+    updateSlidePosition();
+}
+
+// Initialize carousel when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    initPartnersCarousel();
+    
+    // Add this to your existing DOMContentLoaded function
+    // after other initialization code
+});
+    </script>
     <script>
         // Form tab functionality
         function showFormTab(tabName) {
