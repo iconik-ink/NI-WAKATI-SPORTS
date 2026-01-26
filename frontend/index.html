@@ -1104,8 +1104,8 @@
             <h2>Building Inclusive Sports Ecosystems Across Africa</h2>
             <p>Ni-Wakati Sports Africa partners with brands, governments, and communities to champion emerging sports, drive tourism, foster innovation, and create sustainable impact through sport.</p>
             <div class="cta-buttons">
-                <a href="#involve" class="cta-button cta-primary">Partner With Us</a>
-                <a href="#programs" class="cta-button cta-secondary">Explore Our Programs</a>
+                <a href="involved.html" class="cta-button cta-primary">Partner With Us</a>
+                <a href="insights.html" class="cta-button cta-secondary">Explore Our Programs</a>
             </div>
         </div>
     </section>
@@ -1182,10 +1182,18 @@
                 <p class="newsletter-description">
                     Ni-Wakati Sports e-newsletter offers the latest on our efforts to build thriving, resilient and engaged communities through sport.
                 </p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Your email address..." required>
-                    <button type="submit" class="signup-btn">Sign Up</button>
-                </form>
+               <form class="newsletter-form" id="newsletter-form">
+    <input 
+        type="email" 
+        id="newsletter-email"
+        placeholder="Your email address..." 
+        required
+    >
+    <button type="submit" class="signup-btn">Sign Up</button>
+</form>
+
+<p id="newsletter-message"></p>
+
             </div>
 
             <hr class="footer-divider">
@@ -1262,6 +1270,10 @@
     </svg>
 
     <script>
+        const API_BASE_URL = "http://localhost:4000/api/v1";
+
+
+
         // ===== NAVBAR ANIMATION =====
         const nav = document.querySelector('nav > ul');
         const items = document.querySelectorAll('nav > ul > li > a');
@@ -1412,19 +1424,47 @@
                 });
             });
 
-            // Newsletter form submission
-            const newsletterForm = document.querySelector('.newsletter-form');
-            if (newsletterForm) {
-                newsletterForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const email = this.querySelector('input[type="email"]').value;
-                    
-                    if (email) {
-                        alert(`Thank you for subscribing with: ${email}\nYou'll receive updates from Ni-Wakati Sports Africa shortly.`);
-                        this.reset();
-                    }
-                });
-            }
+// Newsletter form submission
+const newsletterForm = document.getElementById("newsletter-form");
+const messageEl = document.getElementById("newsletter-message");
+const button = newsletterForm.querySelector("button");
+
+newsletterForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById("newsletter-email").value;
+  messageEl.textContent = "";
+  button.disabled = true;
+  button.textContent = "Submitting...";
+
+  try {
+    const res = await fetch("http://localhost:4000/api/v1/newsletter/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.message);
+
+    messageEl.style.color = "green";
+    messageEl.textContent = data.message;
+    newsletterForm.reset();
+
+  } catch (err) {
+    messageEl.style.color = "red";
+    messageEl.textContent = err.message || "Something went wrong";
+  } finally {
+    button.disabled = false;
+    button.textContent = "Sign Up";
+  }
+});
+
+}
+
+
+
 
             // Update copyright year
             const currentYear = new Date().getFullYear();

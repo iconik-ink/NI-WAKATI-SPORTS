@@ -1,19 +1,19 @@
 import express from "express";
+import cors from "cors";
 
-const app = express(); // create an express app
+import userRouter from "./routes/user.routes.js";
+import postRouter from "./routes/post.routes.js";
+import newsletterRouter from "./routes/newsletter.routes.js";
+import adminRouter from "./routes/admin.routes.js";
 
+const app = express();
+
+app.use(cors());
 app.use(express.json());
 
-// routes import
-import userRouter from './routes/user.routes.js';
-import postRouter from './routes/post.routes.js';
-
-
-//routes declaration
 app.use("/api/v1/users", userRouter);
-app.use("/api/v1/posts", postRouter)
+app.use("/api/v1/posts", postRouter);
+app.use("/api/v1/newsletter", newsletterRouter);
+app.use("/api/v1/admin", adminRouter);
 
-
-// example route: http://localhost:4000/api/v1/users/register
-
-export default  app;
+export default app;
