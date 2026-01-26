@@ -7,7 +7,11 @@ const router = express.Router();
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
 
+
 router.post("/login", async (req, res) => {
+  console.log("ADMIN_EMAIL:", process.env.ADMIN_EMAIL);
+  console.log("HAS HASH:", !!process.env.ADMIN_PASSWORD_HASH);
+
   const { email, password } = req.body;
 
   // 👇 READ ENV AT RUNTIME (NOT AT IMPORT TIME)
