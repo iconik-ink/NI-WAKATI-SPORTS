@@ -10,6 +10,15 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+//for render.com
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    service: "NI WAKATI SPORTS API",
+    message: "Backend is running"
+  });
+});
+
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/posts", postRouter);
