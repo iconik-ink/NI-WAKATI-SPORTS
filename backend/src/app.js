@@ -10,20 +10,26 @@ const app = express();
 
 const allowedOrigins = [
   "https://ni-wakati-sports.netlify.app",
+  "https://ni-wakati-sports.netlify.app/", // safe
   "http://localhost:3000",
   "http://localhost:5173"
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin) return callback(null, true); // allow Postman / curl
-    if (allowedOrigins.includes(origin)) {
+    // allow server-to-server, curl, Postman
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.some(o => origin.startsWith(o))) {
       return callback(null, true);
     }
+
+    console.error("Blocked by CORS:", origin);
     return callback(new Error("CORS not allowed"));
   },
   credentials: true
 }));
+
 
 app.use(express.json());
 //for render.com
