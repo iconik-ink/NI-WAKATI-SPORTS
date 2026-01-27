@@ -1,6 +1,5 @@
-
-
-const API_URL = "http://localhost:4000/api/v1/newsletter";
+// 🌍 PRODUCTION API BASE URL
+const API_BASE_URL = "https://ni-wakati-sports-1.onrender.com/api/v1";
 
 // --- ELEMENTS ---
 const loginSection = document.getElementById("login-section");
@@ -11,7 +10,7 @@ const adminKeyInput = document.getElementById("admin-key");
 const loginMessage = document.getElementById("login-message");
 const subscribersList = document.getElementById("subscribers-list");
 
-// --- LOGIN HANDLER ---
+// --- LOGIN ---
 loginBtn.addEventListener("click", async () => {
   const password = adminKeyInput.value.trim();
 
@@ -21,11 +20,11 @@ loginBtn.addEventListener("click", async () => {
   }
 
   try {
-    const res = await fetch("http://localhost:4000/api/v1/admin/login", {
+    const res = await fetch(`${API_BASE_URL}/admin/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        email: "admin@example.com",
+        email: "flexxngire01@gmail.com",
         password
       })
     });
@@ -37,13 +36,12 @@ loginBtn.addEventListener("click", async () => {
       return;
     }
 
-    // ✅ Save JWT to localStorage
+    // ✅ Save JWT
     localStorage.setItem("adminToken", data.token);
 
-    // Clear input
     adminKeyInput.value = "";
+    loginMessage.textContent = "";
 
-    // Load subscribers
     loadSubscribers();
   } catch (err) {
     console.error(err);
@@ -51,7 +49,7 @@ loginBtn.addEventListener("click", async () => {
   }
 });
 
-// --- LOGOUT HANDLER ---
+// --- LOGOUT ---
 logoutBtn.addEventListener("click", () => {
   localStorage.removeItem("adminToken");
   dashboard.style.display = "none";
@@ -63,16 +61,17 @@ logoutBtn.addEventListener("click", () => {
 // --- LOAD SUBSCRIBERS ---
 async function loadSubscribers() {
   const token = localStorage.getItem("adminToken");
+
   if (!token) {
-    loginMessage.textContent = "Session expired. Please login again.";
-    loginSection.style.display = "block";
-    dashboard.style.display = "none";
+    forceLogout();
     return;
   }
 
   try {
-    const res = await fetch(`${API_URL}/subscribers`, {
-      headers: { Authorization: "Bearer " + token }
+    const res = await fetch(`${API_BASE_URL}/newsletter/subscribers`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
 
     if (!res.ok) throw new Error("Unauthorized");
@@ -83,34 +82,20 @@ async function loadSubscribers() {
 
     data.subscribers.forEach(sub => {
       const li = document.createElement("li");
-
       li.innerHTML = `
-        ${sub.email} 
+        ${sub.email}
         <button onclick="deleteSubscriber('${sub._id}')">Delete</button>
       `;
-
       subscribersList.appendChild(li);
     });
 
-    // Show dashboard
     loginSection.style.display = "none";
     dashboard.style.display = "block";
-    loginMessage.textContent = "";
   } catch (err) {
     console.error(err);
-    loginMessage.textContent = "Session expired. Please login again.";
-    localStorage.removeItem("adminToken");
-    loginSection.style.display = "block";
-    dashboard.style.display = "none";
+    forceLogout();
   }
 }
-
-// --- AUTO-LOGIN IF TOKEN EXISTS ---
-window.addEventListener("DOMContentLoaded", () => {
-  if (localStorage.getItem("adminToken")) {
-    loadSubscribers();
-  }
-});
 
 // --- DELETE SUBSCRIBER ---
 async function deleteSubscriber(id) {
@@ -118,24 +103,42 @@ async function deleteSubscriber(id) {
 
   const token = localStorage.getItem("adminToken");
   if (!token) {
-    loginMessage.textContent = "Session expired. Please login again.";
-    loginSection.style.display = "block";
-    dashboard.style.display = "none";
+    forceLogout();
     return;
   }
 
   try {
-    const res = await fetch(`${API_URL}/subscribers/${id}`, {
-      method: "DELETE",
-      headers: { Authorization: "Bearer " + token }
-    });
+    const res = await fetch(
+      `${API_BASE_URL}/newsletter/subscribers/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
 
     const data = await res.json();
     alert(data.message);
 
-    loadSubscribers(); // refresh list
+    loadSubscribers();
   } catch (err) {
     console.error(err);
     alert("Failed to delete subscriber");
   }
+}
+
+// --- AUTO LOGIN ---
+window.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("adminToken")) {
+    loadSubscribers();
+  }
+});
+
+// --- FORCE LOGOUT ---
+function forceLogout() {
+  localStorage.removeItem("adminToken");
+  loginSection.style.display = "block";
+  dashboard.style.display = "none";
+  loginMessage.textContent = "Session expired. Please login again.";
 }
