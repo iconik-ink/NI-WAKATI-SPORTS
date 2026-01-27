@@ -8,7 +8,23 @@ import adminRouter from "./routes/admin.routes.js";
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+  "https://ni-wakati-sports.netlify.app",
+  "http://localhost:3000",
+  "http://localhost:5173"
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // allow Postman / curl
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error("CORS not allowed"));
+  },
+  credentials: true
+}));
+
 app.use(express.json());
 //for render.com
 app.get("/", (req, res) => {
