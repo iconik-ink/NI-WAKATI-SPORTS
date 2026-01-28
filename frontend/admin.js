@@ -20,13 +20,15 @@ loginBtn.addEventListener("click", async () => {
   }
 
   try {
-  const res = await fetch(`${API_BASE_URL}/admin/login`, {
+ const res = await fetch(`${API_BASE_URL}/admin/login`, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    adminKey: password
+    email: "flexxngire01@gmail.com", // must match ADMIN_EMAIL
+    password
   })
 });
+
 
 
     const data = await res.json();

@@ -10,17 +10,17 @@ const app = express();
 
 const allowedOrigins = [
   "https://ni-wakati-sports.netlify.app",
-  "https://ni-wakati-sports.netlify.app/", // safe
+  "https://ni-wakati-sports-1.onrender.com",
   "http://localhost:3000",
   "http://localhost:5173"
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    // allow server-to-server, curl, Postman
+    // Allow Postman, curl, server-to-server
     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.some(o => origin.startsWith(o))) {
+    if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
 
@@ -29,6 +29,7 @@ app.use(cors({
   },
   credentials: true
 }));
+
 
 
 app.use(express.json());
