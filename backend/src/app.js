@@ -17,8 +17,7 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow Postman, curl, server-to-server
-    if (!origin) return callback(null, true);
+    if (!origin) return callback(null, true); // Postman / curl
 
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
@@ -29,6 +28,7 @@ app.use(cors({
   },
   credentials: true
 }));
+
 
 
 
