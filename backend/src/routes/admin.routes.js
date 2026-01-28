@@ -1,7 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import adminAuth from "../middlewares/adminAuth.js";
+import { adminAuth } from "../middlewares/adminAuth.js";
 import { exportSubscribersCSV } from "../controllers/newsletter.admin.controller.js";
 
 const router = express.Router();
