@@ -1,15 +1,9 @@
 import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
+dotenv.config();
 
-// 👇 REQUIRED for ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import connectDB from "./config/database.js";
+import app from "./app.js";
 
-// 👇 FORCE dotenv to backend/.env
-dotenv.config({
-  path: path.resolve(__dirname, "../.env"),
-});
 
 console.log("ENV CHECK:", {
   PORT: process.env.PORT,
@@ -17,8 +11,7 @@ console.log("ENV CHECK:", {
 });
 
 
-import connectDB from "./config/database.js";
-import app from "./app.js";
+
 
 const startServer = async () => {
   try {
