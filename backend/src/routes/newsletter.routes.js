@@ -6,7 +6,8 @@ import {
   getAllSubscribers,
   deleteSubscriber
 } from "../controllers/newsletter.controller.js";
-import { adminAuth } from "../middlewares/adminAuth.js";
+import adminAuth from "../middlewares/adminAuth.js";
+
 // ✅ JWT middleware
 
 const router = express.Router();
