@@ -12,8 +12,10 @@ const allowedOrigins = [
   "https://ni-wakati-sports.netlify.app",
   "https://ni-wakati-sports-1.onrender.com",
   "http://localhost:3000",
-  "http://localhost:5173"
+  "http://localhost:5173",
+  "http://127.0.0.1:5500"   
 ];
+
 
 app.use(cors({
   origin: function (origin, callback) {
