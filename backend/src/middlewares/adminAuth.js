@@ -9,7 +9,7 @@ export const adminAuth = (req, res, next) => {
 
   const authHeader = req.headers.authorization;
 
-  if (!authHeader) {
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({
       message: "Unauthorized: No token provided"
     });
@@ -19,6 +19,14 @@ export const adminAuth = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // 🔒 CRITICAL: enforce admin-only access
+    if (decoded.role !== "admin") {
+      return res.status(403).json({
+        message: "Forbidden: Admin access only"
+      });
+    }
+
     req.admin = decoded;
     next();
   } catch (err) {
