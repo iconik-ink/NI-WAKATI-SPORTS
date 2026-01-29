@@ -10,7 +10,21 @@ const adminKeyInput = document.getElementById("admin-key");
 const loginMessage = document.getElementById("login-message");
 const subscribersList = document.getElementById("subscribers-list");
 
-// --- LOGIN ---
+// -----------------------------
+// 🔐 TOKEN UTIL
+// -----------------------------
+function isTokenExpired(token) {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return payload.exp * 1000 < Date.now();
+  } catch {
+    return true;
+  }
+}
+
+// -----------------------------
+// 🔑 LOGIN
+// -----------------------------
 loginBtn.addEventListener("click", async () => {
   const password = adminKeyInput.value.trim();
 
@@ -20,16 +34,14 @@ loginBtn.addEventListener("click", async () => {
   }
 
   try {
-  const res = await fetch(`${API_BASE_URL}/admin/login`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
- body: JSON.stringify({
-  email: "flexxngire01@gmail.com",
-  password: password
-})
-
-});
-
+    const res = await fetch(`${API_BASE_URL}/admin/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: "flexxngire01@gmail.com",
+        password
+      })
+    });
 
     const data = await res.json();
 
@@ -38,7 +50,7 @@ loginBtn.addEventListener("click", async () => {
       return;
     }
 
-    // ✅ Save JWT
+    // ✅ SAVE JWT
     localStorage.setItem("adminToken", data.token);
 
     adminKeyInput.value = "";
@@ -51,20 +63,18 @@ loginBtn.addEventListener("click", async () => {
   }
 });
 
-// --- LOGOUT ---
-logoutBtn.addEventListener("click", () => {
-  localStorage.removeItem("adminToken");
-  dashboard.style.display = "none";
-  loginSection.style.display = "block";
-  loginMessage.textContent = "";
-  adminKeyInput.value = "";
-});
+// -----------------------------
+// 🚪 LOGOUT
+// -----------------------------
+logoutBtn.addEventListener("click", forceLogout);
 
-// --- LOAD SUBSCRIBERS ---
+// -----------------------------
+// 📥 LOAD SUBSCRIBERS
+// -----------------------------
 async function loadSubscribers() {
   const token = localStorage.getItem("adminToken");
 
-  if (!token) {
+  if (!token || isTokenExpired(token)) {
     forceLogout();
     return;
   }
@@ -76,7 +86,14 @@ async function loadSubscribers() {
       }
     });
 
-    if (!res.ok) throw new Error("Unauthorized");
+    if (res.status === 401 || res.status === 403) {
+      forceLogout();
+      return;
+    }
+
+    if (!res.ok) {
+      throw new Error("Failed to load subscribers");
+    }
 
     const data = await res.json();
 
@@ -99,12 +116,14 @@ async function loadSubscribers() {
   }
 }
 
-// --- DELETE SUBSCRIBER ---
+// -----------------------------
+// 🗑️ DELETE SUBSCRIBER
+// -----------------------------
 async function deleteSubscriber(id) {
   if (!confirm("Are you sure you want to delete this subscriber?")) return;
 
   const token = localStorage.getItem("adminToken");
-  if (!token) {
+  if (!token || isTokenExpired(token)) {
     forceLogout();
     return;
   }
@@ -120,6 +139,11 @@ async function deleteSubscriber(id) {
       }
     );
 
+    if (res.status === 401 || res.status === 403) {
+      forceLogout();
+      return;
+    }
+
     const data = await res.json();
     alert(data.message);
 
@@ -130,17 +154,27 @@ async function deleteSubscriber(id) {
   }
 }
 
-// --- AUTO LOGIN ---
+// -----------------------------
+// 🔁 AUTO LOGIN
+// -----------------------------
 window.addEventListener("DOMContentLoaded", () => {
-  if (localStorage.getItem("adminToken")) {
-    loadSubscribers();
+  const token = localStorage.getItem("adminToken");
+
+  if (!token || isTokenExpired(token)) {
+    forceLogout();
+    return;
   }
+
+  loadSubscribers();
 });
 
-// --- FORCE LOGOUT ---
+// -----------------------------
+// 🔒 FORCE LOGOUT
+// -----------------------------
 function forceLogout() {
   localStorage.removeItem("adminToken");
   loginSection.style.display = "block";
   dashboard.style.display = "none";
   loginMessage.textContent = "Session expired. Please login again.";
+  adminKeyInput.value = "";
 }
