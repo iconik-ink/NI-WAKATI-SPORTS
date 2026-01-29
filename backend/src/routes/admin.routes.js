@@ -41,6 +41,18 @@ router.post("/login", async (req, res) => {
 /* 🔒 PROTECT EVERYTHING BELOW */
 router.use(adminAuth);
 
+
+/**
+ * 👤 Verify admin session (ADMIN ONLY)
+ */
+router.get("/me", (req, res) => {
+  res.json({
+    email: req.admin.email,
+    role: req.admin.role
+  });
+});
+
+
 /**
  * 📥 Export newsletter subscribers (ADMIN ONLY)
  */
