@@ -8,25 +8,31 @@ const router = express.Router();
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
-/**
- * 🔑 Admin login (PUBLIC)
- */
+// ==============================
+// 🔑 ADMIN LOGIN (PUBLIC)
+// ==============================
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH;
 
   if (!ADMIN_PASSWORD_HASH) {
-    return res.status(500).json({ message: "Admin password not configured" });
+    return res.status(500).json({
+      message: "Admin password not configured"
+    });
   }
 
   if (email !== ADMIN_EMAIL) {
-    return res.status(401).json({ message: "Invalid credentials" });
+    return res.status(401).json({
+      message: "Invalid credentials"
+    });
   }
 
   const valid = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
   if (!valid) {
-    return res.status(401).json({ message: "Invalid credentials" });
+    return res.status(401).json({
+      message: "Invalid credentials"
+    });
   }
 
   const token = jwt.sign(
@@ -38,13 +44,14 @@ router.post("/login", async (req, res) => {
   res.json({ token });
 });
 
-/* 🔒 PROTECT EVERYTHING BELOW */
+// ==============================
+// 🔒 PROTECT ALL ROUTES BELOW
+// ==============================
 router.use(adminAuth);
 
-
-/**
- * 👤 Verify admin session (ADMIN ONLY)
- */
+// ==============================
+// 👤 VERIFY ADMIN SESSION
+// ==============================
 router.get("/me", (req, res) => {
   res.json({
     email: req.admin.email,
@@ -52,10 +59,9 @@ router.get("/me", (req, res) => {
   });
 });
 
-
-/**
- * 📥 Export newsletter subscribers (ADMIN ONLY)
- */
+// ==============================
+// 📥 EXPORT NEWSLETTER (CSV)
+// ==============================
 router.get("/newsletter/export", exportSubscribersCSV);
 
 export default router;
