@@ -1,4 +1,5 @@
-import Newsletter from "../models/newsletter.model.js";
+import { Newsletter } from "../models/newsletter.model.js";
+
 import transporter from "../config/mailer.js";
 
 // ------------------
