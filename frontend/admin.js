@@ -178,3 +178,48 @@ function forceLogout() {
   loginMessage.textContent = "Session expired. Please login again.";
   adminKeyInput.value = "";
 }
+
+
+//
+const exportBtn = document.getElementById("exportCsvBtn");
+
+if (exportBtn) {
+  exportBtn.addEventListener("click", async () => {
+    const token = localStorage.getItem("adminToken");
+
+    if (!token) {
+      alert("Session expired. Please login again.");
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        "https://ni-wakati-sports-1.onrender.com/api/v1/admin/newsletter/export",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to download CSV");
+      }
+
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "subscribers.csv";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+      alert("CSV export failed");
+    }
+  });
+}
