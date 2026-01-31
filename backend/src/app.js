@@ -6,7 +6,7 @@ import userRouter from "./routes/user.routes.js";
 import postRouter from "./routes/post.routes.js";
 import newsletterRouter from "./routes/newsletter.routes.js";
 import adminRouter from "./routes/admin.routes.js";
-import contactRouter from "./routes/contact.routes.js";
+
 
 
 const app = express();
@@ -52,7 +52,7 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/posts", postRouter);
 app.use("/api/v1/newsletter", newsletterRouter);
 app.use("/api/v1/admin", adminRouter);
-app.use("/api/v1/contact", contactRouter);
+
 
 
 export default app;
