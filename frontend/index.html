@@ -1269,7 +1269,7 @@
         </defs>
     </svg>
 
-   <script>
+ <script>
 const API_BASE_URL = "https://ni-wakati-sports-1.onrender.com/api/v1";
 
 // ===== NAVBAR ANIMATION =====
@@ -1309,8 +1309,7 @@ const getCurrentPosition = () =>
 const getItemCenter = (item) =>
   item.getBoundingClientRect().left +
   item.offsetWidth / 2 -
-  nav.getBoundingClientRect().left -
-  5;
+  nav.getBoundingClientRect().left - 5;
 
 const moveToItem = (item) => {
   if (window.innerWidth <= 768) return;
@@ -1369,17 +1368,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // ===== NEWSLETTER (FIXED) =====
+  // ===== NEWSLETTER (UPDATED) =====
   const newsletterForm = document.getElementById("newsletter-form");
   if (newsletterForm) {
     const messageEl = document.getElementById("newsletter-message");
     const button = newsletterForm.querySelector("button");
 
+    const validateEmail = (email) => {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(String(email).toLowerCase());
+    };
+
     newsletterForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const email = document.getElementById("newsletter-email").value;
+      const email = document.getElementById("newsletter-email").value.trim();
       messageEl.textContent = "";
+
+      if (!validateEmail(email)) {
+        messageEl.style.color = "red";
+        messageEl.textContent = "Please enter a valid email address.";
+        return;
+      }
+
       button.disabled = true;
       button.textContent = "Submitting...";
 
@@ -1391,10 +1402,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         const data = await res.json();
-        if (!res.ok) throw new Error(data.message);
+        if (!res.ok) throw new Error(data.message || "Failed to subscribe.");
 
         messageEl.style.color = "green";
-        messageEl.textContent = data.message;
+        messageEl.textContent = data.message || "Subscribed successfully!";
         newsletterForm.reset();
 
       } catch (err) {
@@ -1403,6 +1414,10 @@ document.addEventListener("DOMContentLoaded", () => {
       } finally {
         button.disabled = false;
         button.textContent = "Sign Up";
+        // Auto clear message after 5 seconds
+        setTimeout(() => {
+          messageEl.textContent = "";
+        }, 5000);
       }
     });
   }
@@ -1415,6 +1430,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 </script>
+
 
 </body>
 </html>
