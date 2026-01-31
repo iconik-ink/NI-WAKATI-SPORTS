@@ -1,3 +1,4 @@
+// backend/src/controllers/newsletter.controller.js
 import { Newsletter } from "../models/newsletter.model.js";
 import transporter from "../config/mailer.js";
 
@@ -7,12 +8,19 @@ import transporter from "../config/mailer.js";
 export const subscribeNewsletter = async (req, res) => {
   const { email } = req.body;
 
-  if (!email) return res.status(400).json({ message: "Email is required" });
+  if (!email) {
+    return res.status(400).json({ message: "Email is required" });
+  }
 
   try {
+    // Check if already subscribed
     const exists = await Newsletter.findOne({ email });
-    if (exists) return res.status(400).json({ message: "Email already subscribed" });
+    if (exists) {
+      // ✅ Return 200 so frontend spinner stops
+      return res.status(200).json({ message: "Email already subscribed" });
+    }
 
+    // Save new subscriber
     const subscriber = await Newsletter.create({ email });
 
     // ✉️ Send confirmation email
@@ -29,37 +37,9 @@ export const subscribeNewsletter = async (req, res) => {
       `
     });
 
-    res.status(201).json({
-      message: "Subscription successful. Check your email 📩",
-      subscriber
-    });
+    res.status(201).json({ message: "Subscription successful. Check your email 📩" });
   } catch (err) {
     console.error("Newsletter error:", err);
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
-// ------------------
-// Admin: Get all subscribers
-// ------------------
-export const getAllSubscribers = async (req, res) => {
-  try {
-    const subscribers = await Newsletter.find().sort({ createdAt: -1 });
-    res.json({ subscribers });
-  } catch (err) {
-    res.status(500).json({ message: "Failed to fetch subscribers" });
-  }
-};
-
-// ------------------
-// Admin: Delete subscriber
-// ------------------
-export const deleteSubscriber = async (req, res) => {
-  try {
-    const deleted = await Newsletter.findByIdAndDelete(req.params.id);
-    if (!deleted) return res.status(404).json({ message: "Subscriber not found" });
-    res.json({ message: "Subscriber deleted successfully" });
-  } catch (err) {
-    res.status(500).json({ message: "Failed to delete subscriber" });
+    res.status(500).json({ message: "Server error. Please try again later." });
   }
 };
