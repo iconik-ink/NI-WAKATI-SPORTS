@@ -21,7 +21,7 @@
       margin-top: 50px;
       border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      width: 300px;
+      width: 500px;
       text-align: center;
     }
 
@@ -38,7 +38,8 @@
     }
 
     button {
-      padding: 10px 20px;
+      padding: 8px 16px;
+      margin: 2px;
       border: none;
       border-radius: 6px;
       background-color: #007bff;
@@ -51,17 +52,25 @@
       background-color: #0056b3;
     }
 
-    #subscribers-list {
-      list-style: none;
-      padding: 0;
-      margin-top: 15px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
     }
 
-    #subscribers-list li {
-      background: #f1f1f1;
-      margin: 5px 0;
+    table th, table td {
       padding: 8px;
-      border-radius: 4px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #f2f2f2;
+    }
+
+    .highlight {
+      background-color: #d4edda !important;
+      transition: background-color 2s ease;
     }
 
     #login-message {
@@ -72,6 +81,7 @@
 </head>
 <body>
 
+  <!-- LOGIN SECTION -->
   <div id="login-section">
     <h1>Admin Login</h1>
     <input type="password" id="admin-key" placeholder="Enter Admin Key" />
@@ -79,17 +89,23 @@
     <p id="login-message"></p>
   </div>
 
+  <!-- DASHBOARD SECTION -->
   <div id="dashboard" style="display:none;">
-  <button id="logout-btn">Logout</button>
-
-  <br /><br />
-
-  <button id="exportCsvBtn">📥 Download Subscribers CSV</button>
-
-  <h2>Newsletter Subscribers</h2>
-  <ul id="subscribers-list"></ul>
-</div>
-
+    <button id="logout-btn">Logout</button>
+    <br /><br />
+    <button id="exportCsvBtn">📥 Download Subscribers CSV</button>
+    <h2>Newsletter Subscribers</h2>
+    <table id="subscribersTable">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Subscribed At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
   <script src="admin.js"></script>
 </body>

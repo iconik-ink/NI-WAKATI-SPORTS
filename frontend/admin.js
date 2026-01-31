@@ -8,7 +8,8 @@ const loginBtn = document.getElementById("login-btn");
 const logoutBtn = document.getElementById("logout-btn");
 const adminKeyInput = document.getElementById("admin-key");
 const loginMessage = document.getElementById("login-message");
-const subscribersList = document.getElementById("subscribers-list");
+const subscribersTableBody = document.querySelector("#subscribersTable tbody");
+const exportBtn = document.getElementById("exportCsvBtn");
 
 // -----------------------------
 // 🔐 TOKEN UTIL
@@ -27,32 +28,19 @@ function isTokenExpired(token) {
 // -----------------------------
 loginBtn.addEventListener("click", async () => {
   const password = adminKeyInput.value.trim();
-
-  if (!password) {
-    loginMessage.textContent = "Password required";
-    return;
-  }
+  if (!password) return (loginMessage.textContent = "Password required");
 
   try {
     const res = await fetch(`${API_BASE_URL}/admin/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: "flexxngire01@gmail.com",
-        password
-      })
+      body: JSON.stringify({ email: "flexxngire01@gmail.com", password })
     });
 
     const data = await res.json();
+    if (!res.ok) return (loginMessage.textContent = data.message || "Login failed");
 
-    if (!res.ok) {
-      loginMessage.textContent = data.message || "Login failed";
-      return;
-    }
-
-    // ✅ SAVE JWT
     localStorage.setItem("adminToken", data.token);
-
     adminKeyInput.value = "";
     loginMessage.textContent = "";
 
@@ -67,46 +55,49 @@ loginBtn.addEventListener("click", async () => {
 // 🚪 LOGOUT
 // -----------------------------
 logoutBtn.addEventListener("click", forceLogout);
+function forceLogout() {
+  localStorage.removeItem("adminToken");
+  loginSection.style.display = "block";
+  dashboard.style.display = "none";
+  loginMessage.textContent = "Session expired. Please login again.";
+  adminKeyInput.value = "";
+  clearInterval(autoRefreshInterval);
+}
 
 // -----------------------------
 // 📥 LOAD SUBSCRIBERS
 // -----------------------------
+let previousIds = new Set(); // for highlighting new subscribers
+let autoRefreshInterval = null; // auto-refresh timer
+
 async function loadSubscribers() {
   const token = localStorage.getItem("adminToken");
-
-  if (!token || isTokenExpired(token)) {
-    forceLogout();
-    return;
-  }
+  if (!token || isTokenExpired(token)) return forceLogout();
 
   try {
     const res = await fetch(`${API_BASE_URL}/newsletter/subscribers`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      headers: { Authorization: `Bearer ${token}` }
     });
 
-    if (res.status === 401 || res.status === 403) {
-      forceLogout();
-      return;
-    }
-
-    if (!res.ok) {
-      throw new Error("Failed to load subscribers");
-    }
+    if (res.status === 401 || res.status === 403) return forceLogout();
+    if (!res.ok) throw new Error("Failed to load subscribers");
 
     const data = await res.json();
+    const newIds = new Set(data.subscribers.map(s => s._id));
 
-    subscribersList.innerHTML = "";
-
+    subscribersTableBody.innerHTML = "";
     data.subscribers.forEach(sub => {
-      const li = document.createElement("li");
-      li.innerHTML = `
-        ${sub.email}
-        <button onclick="deleteSubscriber('${sub._id}')">Delete</button>
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${sub.email}</td>
+        <td>${new Date(sub.createdAt).toLocaleString()}</td>
+        <td><button onclick="deleteSubscriber('${sub._id}')">Delete</button></td>
       `;
-      subscribersList.appendChild(li);
+      if (!previousIds.has(sub._id)) tr.classList.add("highlight");
+      subscribersTableBody.appendChild(tr);
     });
+
+    previousIds = newIds;
 
     loginSection.style.display = "none";
     dashboard.style.display = "block";
@@ -123,30 +114,18 @@ async function deleteSubscriber(id) {
   if (!confirm("Are you sure you want to delete this subscriber?")) return;
 
   const token = localStorage.getItem("adminToken");
-  if (!token || isTokenExpired(token)) {
-    forceLogout();
-    return;
-  }
+  if (!token || isTokenExpired(token)) return forceLogout();
 
   try {
-    const res = await fetch(
-      `${API_BASE_URL}/newsletter/subscribers/${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }
-    );
+    const res = await fetch(`${API_BASE_URL}/newsletter/subscribers/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` }
+    });
 
-    if (res.status === 401 || res.status === 403) {
-      forceLogout();
-      return;
-    }
+    if (res.status === 401 || res.status === 403) return forceLogout();
 
     const data = await res.json();
     alert(data.message);
-
     loadSubscribers();
   } catch (err) {
     console.error(err);
@@ -155,71 +134,52 @@ async function deleteSubscriber(id) {
 }
 
 // -----------------------------
-// 🔁 AUTO LOGIN
+// 🔁 AUTO LOGIN ON PAGE LOAD
 // -----------------------------
 window.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("adminToken");
 
-  if (!token || isTokenExpired(token)) {
-    forceLogout();
-    return;
+  // Only force logout message if a token existed but expired
+  if (token) {
+    if (isTokenExpired(token)) {
+      loginMessage.textContent = "Session expired. Please login again.";
+      localStorage.removeItem("adminToken");
+    } else {
+      // Token valid, auto-login
+      loadSubscribers();
+      autoRefreshInterval = setInterval(loadSubscribers, 30000);
+    }
   }
-
-  loadSubscribers();
+  // If no token exists, do nothing — show login form clean
 });
 
+
 // -----------------------------
-// 🔒 FORCE LOGOUT
+// 📥 EXPORT CSV
 // -----------------------------
-function forceLogout() {
-  localStorage.removeItem("adminToken");
-  loginSection.style.display = "block";
-  dashboard.style.display = "none";
-  loginMessage.textContent = "Session expired. Please login again.";
-  adminKeyInput.value = "";
-}
+exportBtn.addEventListener("click", async () => {
+  const token = localStorage.getItem("adminToken");
+  if (!token) return alert("Session expired. Please login again.");
 
+  try {
+    const res = await fetch(`${API_BASE_URL}/admin/newsletter/export`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
 
-//
-const exportBtn = document.getElementById("exportCsvBtn");
+    if (!res.ok) throw new Error("Failed to download CSV");
 
-if (exportBtn) {
-  exportBtn.addEventListener("click", async () => {
-    const token = localStorage.getItem("adminToken");
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "subscribers.csv";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
 
-    if (!token) {
-      alert("Session expired. Please login again.");
-      return;
-    }
-
-    try {
-      const res = await fetch(
-        "https://ni-wakati-sports-1.onrender.com/api/v1/admin/newsletter/export",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
-
-      if (!res.ok) {
-        throw new Error("Failed to download CSV");
-      }
-
-      const blob = await res.blob();
-      const url = window.URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "subscribers.csv";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
-      window.URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error(err);
-      alert("CSV export failed");
-    }
-  });
-}
+  } catch (err) {
+    console.error(err);
+    alert("CSV export failed");
+  }
+});

@@ -1,5 +1,4 @@
 import { Newsletter } from "../models/newsletter.model.js";
-
 import transporter from "../config/mailer.js";
 
 // ------------------
@@ -8,19 +7,15 @@ import transporter from "../config/mailer.js";
 export const subscribeNewsletter = async (req, res) => {
   const { email } = req.body;
 
-  if (!email) {
-    return res.status(400).json({ message: "Email is required" });
-  }
+  if (!email) return res.status(400).json({ message: "Email is required" });
 
   try {
     const exists = await Newsletter.findOne({ email });
-    if (exists) {
-      return res.status(400).json({ message: "Email already subscribed" });
-    }
+    if (exists) return res.status(400).json({ message: "Email already subscribed" });
 
-    await Newsletter.create({ email });
+    const subscriber = await Newsletter.create({ email });
 
-    // ✉️ SEND CONFIRMATION EMAIL
+    // ✉️ Send confirmation email
     await transporter.sendMail({
       from: `"NI WAKATI SPORTS" <${process.env.EMAIL_USER}>`,
       to: email,
@@ -35,9 +30,9 @@ export const subscribeNewsletter = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "Subscription successful. Check your email 📩"
+      message: "Subscription successful. Check your email 📩",
+      subscriber
     });
-
   } catch (err) {
     console.error("Newsletter error:", err);
     res.status(500).json({ message: "Server error" });
@@ -61,8 +56,9 @@ export const getAllSubscribers = async (req, res) => {
 // ------------------
 export const deleteSubscriber = async (req, res) => {
   try {
-    await Newsletter.findByIdAndDelete(req.params.id);
-    res.json({ message: "Subscriber deleted" });
+    const deleted = await Newsletter.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ message: "Subscriber not found" });
+    res.json({ message: "Subscriber deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: "Failed to delete subscriber" });
   }
