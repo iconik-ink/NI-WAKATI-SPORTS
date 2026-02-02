@@ -77,6 +77,22 @@
       color: red;
       font-size: 0.9em;
     }
+    /* Promote Temp Admin buttons */
+#tempAdminActions button {
+  background-color: #28a745; /* Green */
+  color: #fff;
+  border-radius: 6px;
+  padding: 8px 14px;
+  margin: 4px 2px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#tempAdminActions button:hover {
+  background-color: #1e7e34; /* Darker green on hover */
+}
+
   </style>
 </head>
 <body>
@@ -89,23 +105,28 @@
     <p id="login-message"></p>
   </div>
 
-  <!-- DASHBOARD SECTION -->
-  <div id="dashboard" style="display:none;">
-    <button id="logout-btn">Logout</button>
-    <br /><br />
-    <button id="exportCsvBtn">📥 Download Subscribers CSV</button>
-    <h2>Newsletter Subscribers</h2>
-    <table id="subscribersTable">
-      <thead>
-        <tr>
-          <th>Email</th>
-          <th>Subscribed At</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
+ <!-- DASHBOARD SECTION -->
+<div id="dashboard" style="display:none;">
+  <button id="logout-btn">Logout</button>
+  <br /><br />
+  <button id="exportCsvBtn">📥 Download Subscribers CSV</button>
+
+  <!-- TEMP ADMIN PROMOTE BUTTONS -->
+  <div id="tempAdminActions" style="margin: 20px 0;"></div>
+
+  <h2>Newsletter Subscribers</h2>
+  <table id="subscribersTable">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Subscribed At</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
 
   <script src="admin.js"></script>
 </body>

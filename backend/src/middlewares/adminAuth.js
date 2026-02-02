@@ -16,10 +16,17 @@ const adminAuth = (req, res, next) => {
       return res.status(403).json({ message: "Forbidden" });
     }
 
-    req.admin = decoded;
+    // 👇 Attach admin info (supports temp admin)
+    req.admin = {
+      email: decoded.email,
+      role: decoded.role,
+      temp: decoded.temp || false,
+      permissions: decoded.permissions || []
+    };
+
     next();
   } catch (err) {
-    return res.status(401).json({ message: "Invalid token" });
+    return res.status(401).json({ message: "Invalid or expired token" });
   }
 };
 

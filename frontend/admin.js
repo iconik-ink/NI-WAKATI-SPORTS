@@ -12,7 +12,7 @@ const subscribersTableBody = document.querySelector("#subscribersTable tbody");
 const exportBtn = document.getElementById("exportCsvBtn");
 
 // -----------------------------
-// 🔐 TOKEN UTIL
+// 🔐 JWT UTIL
 // -----------------------------
 function isTokenExpired(token) {
   try {
@@ -20,6 +20,14 @@ function isTokenExpired(token) {
     return payload.exp * 1000 < Date.now();
   } catch {
     return true;
+  }
+}
+
+function getTokenPayload(token) {
+  try {
+    return JSON.parse(atob(token.split(".")[1]));
+  } catch {
+    return null;
   }
 }
 
@@ -31,11 +39,18 @@ loginBtn.addEventListener("click", async () => {
   if (!password) return (loginMessage.textContent = "Password required");
 
   try {
-    const res = await fetch(`${API_BASE_URL}/admin/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: "flexxngire01@gmail.com", password })
-    });
+    const res = await fetch(
+      password.startsWith("TEMP-")
+        ? `${API_BASE_URL}/admin/login-temp`
+        : `${API_BASE_URL}/admin/login`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: password.startsWith("TEMP-")
+          ? JSON.stringify({ key: password })
+          : JSON.stringify({ email: "flexxngire01@gmail.com", password })
+      }
+    );
 
     const data = await res.json();
     if (!res.ok) return (loginMessage.textContent = data.message || "Login failed");
@@ -43,6 +58,11 @@ loginBtn.addEventListener("click", async () => {
     localStorage.setItem("adminToken", data.token);
     adminKeyInput.value = "";
     loginMessage.textContent = "";
+
+    const payload = getTokenPayload(data.token);
+    if (payload?.temp) {
+      loginMessage.textContent = "Temporary admin access (read-only)";
+    }
 
     loadSubscribers();
   } catch (err) {
@@ -75,6 +95,9 @@ async function loadSubscribers() {
   if (!token || isTokenExpired(token)) return forceLogout();
 
   try {
+    const payload = getTokenPayload(token);
+    const isTempAdmin = payload?.temp === true;
+
     const res = await fetch(`${API_BASE_URL}/newsletter/subscribers`, {
       headers: { Authorization: `Bearer ${token}` }
     });
@@ -91,7 +114,7 @@ async function loadSubscribers() {
       tr.innerHTML = `
         <td>${sub.email}</td>
         <td>${new Date(sub.createdAt).toLocaleString()}</td>
-        <td><button onclick="deleteSubscriber('${sub._id}')">Delete</button></td>
+        <td>${isTempAdmin ? "" : `<button onclick="deleteSubscriber('${sub._id}')">Delete</button>`}</td>
       `;
       if (!previousIds.has(sub._id)) tr.classList.add("highlight");
       subscribersTableBody.appendChild(tr);
@@ -111,10 +134,13 @@ async function loadSubscribers() {
 // 🗑️ DELETE SUBSCRIBER
 // -----------------------------
 async function deleteSubscriber(id) {
-  if (!confirm("Are you sure you want to delete this subscriber?")) return;
-
   const token = localStorage.getItem("adminToken");
   if (!token || isTokenExpired(token)) return forceLogout();
+
+  const payload = getTokenPayload(token);
+  if (payload?.temp) return alert("Delete disabled for temporary admin access");
+
+  if (!confirm("Are you sure you want to delete this subscriber?")) return;
 
   try {
     const res = await fetch(`${API_BASE_URL}/newsletter/subscribers/${id}`, {
@@ -133,26 +159,56 @@ async function deleteSubscriber(id) {
   }
 }
 
+
+
+
+
+
+// -----------------------------
+// 🔁 PROMOTE TEMP ADMIN → FULL
+// -----------------------------
+async function promoteAdmin(tempAdminId) {
+  const token = localStorage.getItem("adminToken");
+  if (!token || isTokenExpired(token)) return forceLogout();
+
+  const payload = getTokenPayload(token);
+  if (payload?.temp) return alert("Temp admins cannot promote anyone.");
+
+  if (!confirm("Are you sure you want to promote this temporary admin to full admin?")) return;
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/admin/promote/${tempAdminId}`, {
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Promotion failed");
+
+    alert(data.message || "Temporary admin promoted successfully!");
+    loadTempAdmins(); // refresh list
+  } catch (err) {
+    console.error(err);
+    alert(err.message || "Promotion failed");
+  }
+}
+
 // -----------------------------
 // 🔁 AUTO LOGIN ON PAGE LOAD
 // -----------------------------
 window.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("adminToken");
 
-  // Only force logout message if a token existed but expired
   if (token) {
     if (isTokenExpired(token)) {
       loginMessage.textContent = "Session expired. Please login again.";
       localStorage.removeItem("adminToken");
     } else {
-      // Token valid, auto-login
       loadSubscribers();
       autoRefreshInterval = setInterval(loadSubscribers, 30000);
     }
   }
-  // If no token exists, do nothing — show login form clean
 });
-
 
 // -----------------------------
 // 📥 EXPORT CSV

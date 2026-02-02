@@ -44,6 +44,44 @@ router.post("/login", async (req, res) => {
   res.json({ token });
 });
 
+
+
+
+// ==============================
+// ⏳ TEMP ADMIN LOGIN (CLIENT)
+// ==============================
+router.post("/login-temp", async (req, res) => {
+  const { key } = req.body;
+
+  const TEMP_ADMIN_KEY = process.env.TEMP_ADMIN_KEY;
+
+  if (!TEMP_ADMIN_KEY) {
+    return res.status(500).json({
+      message: "Temp admin key not configured"
+    });
+  }
+
+  if (key !== TEMP_ADMIN_KEY) {
+    return res.status(401).json({
+      message: "Invalid temp admin key"
+    });
+  }
+
+  const token = jwt.sign(
+    {
+      role: "admin",
+      email: "client@temporary",
+      temp: true,
+      permissions: ["view", "export"]
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "7d" } // ⏳ auto expires
+  );
+
+  res.json({ token });
+});
+
+
 // ==============================
 // 🔒 PROTECT ALL ROUTES BELOW
 // ==============================
