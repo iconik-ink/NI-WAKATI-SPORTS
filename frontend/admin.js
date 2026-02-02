@@ -54,7 +54,14 @@ loginBtn.addEventListener("click", async () => {
       body,
     });
 
-    const data = await res.json();
+    let data = null;
+    const contentType = res.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      data = await res.json();
+    } else {
+      throw new Error("Server did not return JSON. Status: " + res.status);
+    }
+
     if (!res.ok) return (loginMessage.textContent = data.message || "Login failed");
 
     localStorage.setItem("adminToken", data.token);
@@ -127,7 +134,6 @@ async function loadSubscribers() {
     loginSection.style.display = "none";
     dashboard.style.display = "block";
 
-    // TEMP banner
     if (isTempAdmin) loginMessage.textContent = "⚠️ Temporary admin access (read-only)";
   } catch (err) {
     console.error(err);
@@ -212,6 +218,7 @@ exportBtn.addEventListener("click", async () => {
     alert("CSV export failed");
   }
 });
+
 // -----------------------------
 // 🆕 GENERATE TEMP KEY (Full admins only)
 // -----------------------------
@@ -231,12 +238,16 @@ generateTempKeyBtn.addEventListener("click", async () => {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    if (!res.ok) {
-      const data = await res.json();
-      throw new Error(data.message || "Failed to generate TEMP key");
+    let data = null;
+    const contentType = res.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      data = await res.json();
+    } else {
+      throw new Error("Server did not return JSON. Status: " + res.status);
     }
 
-    const data = await res.json();
+    if (!res.ok) throw new Error(data?.message || "Failed to generate TEMP key");
+
     newTempKeyInput.value = data.key;
 
     // Auto-copy to clipboard
