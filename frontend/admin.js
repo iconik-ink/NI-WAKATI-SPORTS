@@ -35,22 +35,24 @@ function getTokenPayload(token) {
 // 🔑 LOGIN
 // -----------------------------
 loginBtn.addEventListener("click", async () => {
-  const password = adminKeyInput.value.trim();
-  if (!password) return (loginMessage.textContent = "Password required");
+  const keyOrPassword = adminKeyInput.value.trim();
+  if (!keyOrPassword) return (loginMessage.textContent = "Password or key required");
 
   try {
-    const res = await fetch(
-      password.startsWith("TEMP-")
-        ? `${API_BASE_URL}/admin/login-temp`
-        : `${API_BASE_URL}/admin/login`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: password.startsWith("TEMP-")
-          ? JSON.stringify({ key: password })
-          : JSON.stringify({ email: "flexxngire01@gmail.com", password })
-      }
-    );
+    const isTemp = keyOrPassword.startsWith("TEMP-");
+    const url = isTemp
+      ? `${API_BASE_URL}/admin/login-temp`
+      : `${API_BASE_URL}/admin/login`;
+
+    const body = isTemp
+      ? JSON.stringify({ key: keyOrPassword })
+      : JSON.stringify({ email: "flexxngire01@gmail.com", password: keyOrPassword });
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body,
+    });
 
     const data = await res.json();
     if (!res.ok) return (loginMessage.textContent = data.message || "Login failed");
@@ -87,8 +89,8 @@ function forceLogout() {
 // -----------------------------
 // 📥 LOAD SUBSCRIBERS
 // -----------------------------
-let previousIds = new Set(); // for highlighting new subscribers
-let autoRefreshInterval = null; // auto-refresh timer
+let previousIds = new Set();
+let autoRefreshInterval = null;
 
 async function loadSubscribers() {
   const token = localStorage.getItem("adminToken");
@@ -99,7 +101,7 @@ async function loadSubscribers() {
     const isTempAdmin = payload?.temp === true;
 
     const res = await fetch(`${API_BASE_URL}/newsletter/subscribers`, {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     if (res.status === 401 || res.status === 403) return forceLogout();
@@ -124,6 +126,9 @@ async function loadSubscribers() {
 
     loginSection.style.display = "none";
     dashboard.style.display = "block";
+
+    // TEMP banner
+    if (isTempAdmin) loginMessage.textContent = "⚠️ Temporary admin access (read-only)";
   } catch (err) {
     console.error(err);
     forceLogout();
@@ -145,7 +150,7 @@ async function deleteSubscriber(id) {
   try {
     const res = await fetch(`${API_BASE_URL}/newsletter/subscribers/${id}`, {
       method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     if (res.status === 401 || res.status === 403) return forceLogout();
@@ -156,40 +161,6 @@ async function deleteSubscriber(id) {
   } catch (err) {
     console.error(err);
     alert("Failed to delete subscriber");
-  }
-}
-
-
-
-
-
-
-// -----------------------------
-// 🔁 PROMOTE TEMP ADMIN → FULL
-// -----------------------------
-async function promoteAdmin(tempAdminId) {
-  const token = localStorage.getItem("adminToken");
-  if (!token || isTokenExpired(token)) return forceLogout();
-
-  const payload = getTokenPayload(token);
-  if (payload?.temp) return alert("Temp admins cannot promote anyone.");
-
-  if (!confirm("Are you sure you want to promote this temporary admin to full admin?")) return;
-
-  try {
-    const res = await fetch(`${API_BASE_URL}/admin/promote/${tempAdminId}`, {
-      method: "PATCH",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Promotion failed");
-
-    alert(data.message || "Temporary admin promoted successfully!");
-    loadTempAdmins(); // refresh list
-  } catch (err) {
-    console.error(err);
-    alert(err.message || "Promotion failed");
   }
 }
 
@@ -217,9 +188,12 @@ exportBtn.addEventListener("click", async () => {
   const token = localStorage.getItem("adminToken");
   if (!token) return alert("Session expired. Please login again.");
 
+  const payload = getTokenPayload(token);
+  if (payload?.temp) return alert("CSV export disabled for temporary admin access");
+
   try {
     const res = await fetch(`${API_BASE_URL}/admin/newsletter/export`, {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     if (!res.ok) throw new Error("Failed to download CSV");
@@ -233,9 +207,43 @@ exportBtn.addEventListener("click", async () => {
     a.click();
     a.remove();
     window.URL.revokeObjectURL(url);
-
   } catch (err) {
     console.error(err);
     alert("CSV export failed");
+  }
+});
+// -----------------------------
+// 🆕 GENERATE TEMP KEY (Full admins only)
+// -----------------------------
+const generateTempKeyBtn = document.getElementById("generateTempKeyBtn");
+const newTempKeyInput = document.getElementById("newTempKey");
+
+generateTempKeyBtn.addEventListener("click", async () => {
+  const token = localStorage.getItem("adminToken");
+  if (!token || isTokenExpired(token)) return forceLogout();
+
+  const payload = getTokenPayload(token);
+  if (payload?.temp) return alert("Temporary admins cannot generate TEMP keys");
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/admin/generate-temp-key`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!res.ok) {
+      const data = await res.json();
+      throw new Error(data.message || "Failed to generate TEMP key");
+    }
+
+    const data = await res.json();
+    newTempKeyInput.value = data.key;
+
+    // Auto-copy to clipboard
+    navigator.clipboard.writeText(data.key);
+    alert("New TEMP key generated and copied to clipboard!");
+  } catch (err) {
+    console.error(err);
+    alert(err.message || "Failed to generate TEMP key");
   }
 });

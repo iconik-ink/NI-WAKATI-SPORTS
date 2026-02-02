@@ -4,6 +4,8 @@ import bcrypt from "bcryptjs";
 import adminAuth from "../middlewares/adminAuth.js";
 import { exportSubscribersCSV } from "../controllers/newsletter.admin.controller.js";
 import { tempAdminLogin } from "../controllers/tempAdmin.controller.js";
+import { generateTempKey } from "../controllers/tempAdmin.controller.js";
+import { verifyAdmin } from "../middlewares/auth.middleware.js"; // full admin only
 
 const router = express.Router();
 
@@ -12,6 +14,8 @@ const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
 // TEMP admin login route
 router.post("/login-temp", tempAdminLogin);
+
+router.post("/generate-temp-key", verifyAdmin, generateTempKey);
 
 // ==============================
 // 🔑 ADMIN LOGIN (PUBLIC)
