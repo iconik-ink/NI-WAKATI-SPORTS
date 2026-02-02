@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 import adminAuth from "../middlewares/adminAuth.js"; // protects routes
 import { exportSubscribersCSV } from "../controllers/newsletter.admin.controller.js";
 import { tempAdminLogin, generateTempKey } from "../controllers/tempAdmin.controller.js";
-import { verifyAdmin } from "../middlewares/auth.middleware.js"; // full admin only
+
 
 const router = express.Router();
 
@@ -36,7 +36,8 @@ router.post("/login-temp", tempAdminLogin);
 // ==============================
 // 🆕 GENERATE TEMP KEY (FULL ADMINS ONLY)
 // ==============================
-router.post("/generate-temp-key", verifyAdmin, generateTempKey);
+router.post("/generate-temp-key", adminAuth, generateTempKey);
+
 
 // ==============================
 // 🔒 PROTECT ALL ROUTES BELOW
