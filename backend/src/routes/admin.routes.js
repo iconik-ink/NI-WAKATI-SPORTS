@@ -3,10 +3,15 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import adminAuth from "../middlewares/adminAuth.js";
 import { exportSubscribersCSV } from "../controllers/newsletter.admin.controller.js";
+import { tempAdminLogin } from "../controllers/tempAdmin.controller.js";
 
 const router = express.Router();
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+
+
+// TEMP admin login route
+router.post("/login-temp", tempAdminLogin);
 
 // ==============================
 // 🔑 ADMIN LOGIN (PUBLIC)
