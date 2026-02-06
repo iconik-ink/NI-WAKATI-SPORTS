@@ -10,6 +10,15 @@ const adminKeyInput = document.getElementById("admin-key");
 const loginMessage = document.getElementById("login-message");
 const subscribersTableBody = document.querySelector("#subscribersTable tbody");
 const exportBtn = document.getElementById("exportCsvBtn");
+const generateTempKeyBtn = document.getElementById("generateTempKeyBtn");
+const newTempKeyInput = document.getElementById("newTempKey");
+
+// Page Editor Elements
+const pageSelect = document.getElementById("pageSelect");
+const pageTitle = document.getElementById("pageTitle");
+const pageBody = document.getElementById("pageBody");
+const savePageBtn = document.getElementById("savePageBtn");
+const saveMessage = document.getElementById("saveMessage");
 
 // -----------------------------
 // 🔐 JWT UTIL
@@ -74,6 +83,7 @@ loginBtn.addEventListener("click", async () => {
     }
 
     loadSubscribers();
+    loadPageContent(pageSelect.value); // Load content editor page
   } catch (err) {
     console.error(err);
     loginMessage.textContent = "Server error";
@@ -130,7 +140,6 @@ async function loadSubscribers() {
     });
 
     previousIds = newIds;
-
     loginSection.style.display = "none";
     dashboard.style.display = "block";
 
@@ -160,7 +169,6 @@ async function deleteSubscriber(id) {
     });
 
     if (res.status === 401 || res.status === 403) return forceLogout();
-
     const data = await res.json();
     alert(data.message);
     loadSubscribers();
@@ -175,15 +183,10 @@ async function deleteSubscriber(id) {
 // -----------------------------
 window.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("adminToken");
-
-  if (token) {
-    if (isTokenExpired(token)) {
-      loginMessage.textContent = "Session expired. Please login again.";
-      localStorage.removeItem("adminToken");
-    } else {
-      loadSubscribers();
-      autoRefreshInterval = setInterval(loadSubscribers, 30000);
-    }
+  if (token && !isTokenExpired(token)) {
+    loadSubscribers();
+    loadPageContent(pageSelect.value); // Load editor
+    autoRefreshInterval = setInterval(loadSubscribers, 30000);
   }
 });
 
@@ -220,11 +223,8 @@ exportBtn.addEventListener("click", async () => {
 });
 
 // -----------------------------
-// 🆕 GENERATE TEMP KEY (Full admins only)
+// 🆕 GENERATE TEMP KEY
 // -----------------------------
-const generateTempKeyBtn = document.getElementById("generateTempKeyBtn");
-const newTempKeyInput = document.getElementById("newTempKey");
-
 generateTempKeyBtn.addEventListener("click", async () => {
   const token = localStorage.getItem("adminToken");
   if (!token || isTokenExpired(token)) return forceLogout();
@@ -238,19 +238,10 @@ generateTempKeyBtn.addEventListener("click", async () => {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    let data = null;
-    const contentType = res.headers.get("content-type");
-    if (contentType && contentType.includes("application/json")) {
-      data = await res.json();
-    } else {
-      throw new Error("Server did not return JSON. Status: " + res.status);
-    }
-
+    const data = await res.json();
     if (!res.ok) throw new Error(data?.message || "Failed to generate TEMP key");
 
     newTempKeyInput.value = data.key;
-
-    // Auto-copy to clipboard
     navigator.clipboard.writeText(data.key);
     alert("New TEMP key generated and copied to clipboard!");
   } catch (err) {
@@ -258,3 +249,52 @@ generateTempKeyBtn.addEventListener("click", async () => {
     alert(err.message || "Failed to generate TEMP key");
   }
 });
+
+// -----------------------------
+// 🌐 PAGE CONTENT EDITOR (NEW)
+// -----------------------------
+async function loadPageContent(page) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/content/${page}`);
+    const data = await res.json();
+
+    pageTitle.value = data?.data?.title || "";
+    pageBody.value = data?.data?.body || "";
+  } catch (err) {
+    console.error(err);
+    alert("Failed to load page content");
+  }
+}
+
+savePageBtn.addEventListener("click", async () => {
+  const token = localStorage.getItem("adminToken");
+  if (!token || isTokenExpired(token)) return forceLogout();
+
+  const page = pageSelect.value;
+  const title = pageTitle.value;
+  const body = pageBody.value;
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/content/${page}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ title, body }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      return alert(`Error: ${err.message}`);
+    }
+
+    saveMessage.textContent = "Content updated successfully!";
+    setTimeout(() => (saveMessage.textContent = ""), 3000);
+  } catch (err) {
+    console.error(err);
+    alert("Failed to save content");
+  }
+});
+
+pageSelect.addEventListener("change", () => loadPageContent(pageSelect.value));

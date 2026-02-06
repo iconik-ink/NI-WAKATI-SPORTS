@@ -29,12 +29,21 @@
       color: #333;
     }
 
-    input[type="password"] {
+    input[type="text"], input[type="password"] {
       width: 80%;
       padding: 10px;
       margin: 10px 0;
       border-radius: 6px;
       border: 1px solid #ccc;
+    }
+
+    textarea {
+      width: 80%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin: 10px 0;
+      resize: vertical;
     }
 
     button {
@@ -77,22 +86,22 @@
       color: red;
       font-size: 0.9em;
     }
-    /* Promote Temp Admin buttons */
-#tempAdminActions button {
-  background-color: #28a745; /* Green */
-  color: #fff;
-  border-radius: 6px;
-  padding: 8px 14px;
-  margin: 4px 2px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
 
-#tempAdminActions button:hover {
-  background-color: #1e7e34; /* Darker green on hover */
-}
+    /* Temp Admin buttons */
+    #tempAdminActions button {
+      background-color: #28a745;
+      color: #fff;
+      border-radius: 6px;
+      padding: 8px 14px;
+      margin: 4px 2px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
+    #tempAdminActions button:hover {
+      background-color: #1e7e34;
+    }
   </style>
 </head>
 <body>
@@ -105,33 +114,58 @@
     <p id="login-message"></p>
   </div>
 
- <!-- DASHBOARD SECTION -->
-<div id="dashboard" style="display:none;">
-  <button id="logout-btn">Logout</button>
-  <br /><br />
-  <button id="exportCsvBtn">📥 Download Subscribers CSV</button>
-  <br /><br />
-  <button id="generateTempKeyBtn">Generate TEMP Key</button>
-<input type="text" id="newTempKey" readonly placeholder="New TEMP key appears here">
+  <!-- DASHBOARD SECTION -->
+  <div id="dashboard" style="display:none;">
+    <button id="logout-btn">Logout</button>
+    <br /><br />
+
+    <!-- Subscribers CSV -->
+    <button id="exportCsvBtn">📥 Download Subscribers CSV</button>
+    <br /><br />
+
+    <!-- TEMP ADMIN KEYS -->
+    <button id="generateTempKeyBtn">Generate TEMP Key</button>
+    <input type="text" id="newTempKey" readonly placeholder="New TEMP key appears here">
+    <div id="tempAdminActions" style="margin: 20px 0;"></div>
+
+    <!-- Newsletter Subscribers Table -->
+    <h2>Newsletter Subscribers</h2>
+    <table id="subscribersTable">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Subscribed At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <!-- Page Content Editor -->
+    <hr>
+    <h2>Page Content Editor</h2>
+
+   <label for="pageSelect">Select Page:</label>
+<select id="pageSelect">
+  <option value="home">Home</option>
+  <option value="about">About</option>
+  <option value="events">Events</option>
+  <option value="stories">Stories & Insights</option>
+  <option value="get-involved">Get Involved</option>
+</select>
 
 
-  <!-- TEMP ADMIN PROMOTE BUTTONS -->
-  <div id="tempAdminActions" style="margin: 20px 0;"></div>
-  
+    <br><br>
+    <label for="pageTitle">Title</label>
+    <input type="text" id="pageTitle" placeholder="Page title here" />
 
-  <h2>Newsletter Subscribers</h2>
-  <table id="subscribersTable">
-    <thead>
-      <tr>
-        <th>Email</th>
-        <th>Subscribed At</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-</div>
+    <label for="pageBody">Body</label>
+    <textarea id="pageBody" rows="10" placeholder="Page content here"></textarea>
 
+    <br>
+    <button id="savePageBtn">Save Page</button>
+    <p id="saveMessage" style="color:green;"></p>
+  </div>
 
   <script src="admin.js"></script>
 </body>
